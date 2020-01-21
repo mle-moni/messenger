@@ -44,14 +44,6 @@ MongoClient.connect(url, {
 		socket.on("connections", (str)=>{
 			socket.emit("log1", Analyse);
 		});
-	
-		socket.on("genGame", ()=>{
-			if (socket.hasOwnProperty("psd")) {
-				socket.emit("getId", socket.id, socket.psd);
-			} else {
-				socket.emit("logAndComeBack");
-			}
-		});
 
 		socket.on("MAJ", txt=> {
 			if (socket.psd == "Redz") {
@@ -61,22 +53,12 @@ MongoClient.connect(url, {
 			}
 			socket.emit("MAJ", txt);
 		});
-
-		socket.on("wait_opponent", () => {
-			if (socket.hasOwnProperty("psd"))
-				queueSystem.add(socket, io);
-		});
-
-		socket.on("turn", (mode, pos, pos2) => {
-			if (socket.hasOwnProperty("psd"))
-				gameCore.turn(socket, io, mode, pos, pos2);
-		});
 	
 		socket.on("disconnect", ()=>{
-			queueSystem.rm(socket);
+			
 			Analyse.connnected--;
 		});
 	});
 });
 
-console.log("online at : http://localhost:8000");
+console.log("online at : http://localhost:8088");
