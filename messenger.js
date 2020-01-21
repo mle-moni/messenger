@@ -16,7 +16,8 @@ const server = http.createServer(handler).listen(8088, "localhost");
 const io = require('socket.io')(server);
 
 MongoClient.connect(url, {
-    useNewUrlParser: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 }, function(err, db) {
     if (err) throw err;
     let dbo = db.db("art");
