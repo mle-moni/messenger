@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://art_admin:bonjour_BONJOUR_NANMAISREPONDFDP@localhost:27017/art?authSource=art";
+const url = "mongodb://art_admin:bonjour_BONJOUR_NANMAISREPONDFDP@localhost:27017/?authSource=art";
 
 const handler = require("./srv_files/handler").handle;
 const connection = require("./srv_files/connection");
@@ -19,7 +19,8 @@ MongoClient.connect(url, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 }, function(err, db) {
-    if (err) throw err;
+	if (err) throw err;
+	console.log(db);
     let dbo = db.db("art");
 
     function entierAleatoire(min, max) {
