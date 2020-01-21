@@ -60,5 +60,3 @@ MongoClient.connect(url, {
 		});
 	});
 });
-
-console.log("online at : http://localhost:8088");
