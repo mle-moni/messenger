@@ -1,7 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";
+// const url = "mongodb://localhost:27017/";
+const url = "mongodb://art_admin:fautQUILsoitLONG???OUItresLONG@localhost:27017/art";
 
 const handler = require("./srv_files/handler").handle;
 const connection = require("./srv_files/connection");
@@ -20,7 +21,6 @@ MongoClient.connect(url, {
 	useUnifiedTopology: true
 }, function(err, db) {
     if (err) throw err;
-    let dbo = db.db("art");
 
     function entierAleatoire(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -30,15 +30,15 @@ MongoClient.connect(url, {
 		Analyse.total++;
 	
 		socket.on("createAcc", (obj)=>{
-			connection.createAccount(obj, socket, dbo);            
+			connection.createAccount(obj, socket, db);            
 		});
 	
 		socket.on("connectemoistp", (obj, coSettings)=>{
-			connection.connect(obj, coSettings, socket, dbo);
+			connection.connect(obj, coSettings, socket, db);
 		});
 	
 		socket.on("testPsd", (psd, num)=>{
-			connection.testPsd(psd, num, socket, dbo);
+			connection.testPsd(psd, num, socket, db);
 		});
 	
 		socket.on("connections", (str)=>{
