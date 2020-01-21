@@ -1,0 +1,33 @@
+{
+	"messages": [
+		{
+			"_id": "0",
+			"conv_data": []
+		},
+		{
+			"_id": "1",
+			"conv_data": []
+		},
+		{
+			"_id": "2",
+			"conv_data": []
+		}
+	],
+	"user_conv": [
+		{
+			"_id": "OBJECTID(automated by mongodb)",
+			"user_name": "Paul",
+			"convs_id": ["0", "2"]
+		},
+		{
+			"_id": "OBJECTID(automated by mongodb)",
+			"user_name": "Jean",
+			"convs_id": ["0", "2"]
+		},
+		{
+			"_id": "OBJECTID(automated by mongodb)",
+			"user_name": "Lea",
+			"convs_id": ["1", "2"]
+		}
+	]
+}
