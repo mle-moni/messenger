@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 // const url = "mongodb://localhost:27017/";
-const url = "mongodb://art_admin:fautQUILsoitLONG???OUItresLONG@localhost:27017/art";
+const url = "mongodb://art_admin:bonjour_BONJOUR_NANMAISREPONDFDP@localhost:27017/art?authSource=art";
 
 const handler = require("./srv_files/handler").handle;
 const connection = require("./srv_files/connection");
