@@ -21,7 +21,6 @@ MongoClient.connect(url, {
 	useUnifiedTopology: true
 }, function(err, db) {
 	if (err) throw err;
-	console.log(db);
     let dbo = db.db("art");
 
     function entierAleatoire(min, max) {
