@@ -3,8 +3,7 @@ module.exports = {
 };
 
 function search_objs(query, collection, dbo, callback) {
-	dbo.collection(collection).find(
-		query.rgx,
-		{psd: 1}
-	).toArray(callback);
+	dbo.collection(collection).find(query.rgx)
+	.project(query.projection)
+	.toArray(callback);
 }
