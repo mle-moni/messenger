@@ -46,6 +46,14 @@ MongoClient.connect(url, {
 			socket.emit("log1", Analyse);
 		});
 
+		socket.on("genScope", ()=>{
+			if (socket.hasOwnProperty("psd")) {
+				socket.emit("getId", socket.id, socket.psd);
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
 		socket.on("MAJ", txt=> {
 			if (socket.psd == "Redz") {
 				socket.broadcast.emit("MAJ", txt);

@@ -8,7 +8,7 @@
     <link rel="icon" href="img/logo.png" />
     <link rel="stylesheet" type="text/css" href="login/login.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script>const socket = io.connect(location.origin);</script>
+    <script>const socket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});</script>
 </head>
 	<body>
         <div id="post" style="display: none;">Poster du contenu</div>
