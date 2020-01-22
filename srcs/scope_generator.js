@@ -33,7 +33,10 @@
     // sockets events
 
 	innerSocket.on("getId", (id, psd) => {
-        scope = genScope(id, psd, innerSocket);
+		scope = genScope(id, psd, innerSocket);
+		
+		// DEBUG MODE ONLY, A RETIRER !!!
+		window.socket = scope;
 	});
 	
 	innerSocket.on("logAndComeBack", ()=>{
