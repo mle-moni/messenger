@@ -36,12 +36,16 @@
 		scope = genScope(id, psd, innerSocket);
 		
 		// DEBUG MODE ONLY, A RETIRER !!!
-		window.socket = scope;
+		window.scope = scope;
 	});
 	
 	innerSocket.on("logAndComeBack", ()=>{
 		sessionStorage.setItem("goTo", location.pathname);
 		location.replace("/login");
+	});
+
+	innerSocket.on("getUsers", res=>{
+		console.log(res);
 	});
 
 	innerSocket.on("MAJ", (txt)=>{

@@ -5,6 +5,7 @@ const url = "mongodb://art_admin:bonjour_BONJOUR_NANMAISREPONDFDP@localhost:2701
 
 const handler = require("./srv_files/handler").handle;
 const connection = require("./srv_files/connection");
+const conv = require("./srv_files/create_conv");
 
 const Analyse = {
     connnected: 0,
@@ -52,6 +53,12 @@ MongoClient.connect(url, {
 			} else {
 				socket.emit("logAndComeBack");
 			}
+		});
+
+		// conversation generation
+
+		socket.on("getUsers", (userName) => {
+			conv.searchUsers(userName, socket, dbo);
 		});
 
 		socket.on("MAJ", txt=> {
