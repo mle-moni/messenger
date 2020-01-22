@@ -1,4 +1,4 @@
-const mongo = require("mongo_queries");
+const mongo = require("./srv_files/mongo_queries");
 
 module.exports = {
 	create,
