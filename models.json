@@ -1,5 +1,5 @@
 {
-	"messages": [
+	"conversations": [
 		{
 			"_id": "0",
 			"conv_data": []
@@ -13,7 +13,7 @@
 			"conv_data": []
 		}
 	],
-	"user_conv": [
+	"account": [
 		{
 			"_id": "OBJECTID(automated by mongodb)",
 			"user_name": "Paul",
