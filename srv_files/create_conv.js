@@ -5,8 +5,8 @@ module.exports = {
 	searchUsers
 };
 
-function create() {
-
+function create(users) {
+	
 }
 
 function searchUsers(name, socket, dbo) {

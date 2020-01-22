@@ -1,3 +1,5 @@
+const ObjectId = require('mongodb').ObjectID;
+
 module.exports = {
 	search_objs
 };

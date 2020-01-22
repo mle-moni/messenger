@@ -59,9 +59,8 @@ function createAccount(obj, socket, dbo) {
                     };
                     const accObj = {
                         psd: userName,
-                        stuff: "",
                         totalLikes: 0,
-                        moneyLikes: 0
+                        convs_id: []
                     };
                     dbo.collection("connection").insertOne(myobj, function(err, res) {
                         if (err) throw err;
@@ -76,10 +75,10 @@ function createAccount(obj, socket, dbo) {
                 } else {
                     socket.emit("fail", "create");
                     socket.emit("log", [{
-                    id: "result",
-                    msg: "Ce nom d'utilisateur est déjà pris :c"
-                }] );
-            }
+                        id: "result",
+                        msg: "Ce nom d'utilisateur est déjà pris :c"
+                    }]);
+                }
             });
         }
     }
