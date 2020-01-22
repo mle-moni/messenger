@@ -15,7 +15,7 @@ function searchUsers(name, socket, dbo) {
 			return ;
 	}
 	const query = {
-		rgx: new RegExp(name, "i"),
+		rgx: {psd: new RegExp(name, "i")},
 		projection: {_id: 1, psd: 1}
 	};
 	mongo.search_objs(query, "account", dbo, (err, res) => {
