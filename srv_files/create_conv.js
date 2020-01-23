@@ -97,11 +97,10 @@ function quit(convId, socket, dbo) {
 		// on a retiré l'utilisateur de la conversation
 		dbo.collection("account").updateOne({_id:  socket.userId}, {
 			$pull: {
-				conv_users: new ObjectId(convId)
+				convs_id: new ObjectId(convId)
 			}
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
-			console.log(res)
 			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
 		});
 	});
