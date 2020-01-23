@@ -79,7 +79,7 @@ MongoClient.connect(url, {
 
 		socket.on("quitConv", (convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (typeof(convId) === "string") {
+				if (typeof(convId) === "string" && convId.length === 24) {
 					conv.quit(convId, socket, dbo);
 				} else {
 					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
@@ -101,7 +101,7 @@ MongoClient.connect(url, {
 
 		socket.on("addToConv", (users, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (users.push !== undefined && typeof(convId) === "string") {
+				if (users.push !== undefined && typeof(convId) === "string" && convId.length === 24) {
 					conv.addUsers(users, convId, socket, dbo);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");

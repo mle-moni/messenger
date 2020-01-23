@@ -33,26 +33,33 @@ function addUsers(users, convIdStr, socket, dbo) {
 	const convId = new ObjectId(convIdStr);
 
 	deleteErrors(users);
-	for (let i = 0; i < users.length; i++) {
-		dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
-			$push: {
-				convs_id: convId
-			}
-		}, function(err, res) {
-			// on a push la conv_id dans art.account[user].convs_id
-			if (res.matchedCount == 1) {
-				dbo.collection("conversations").updateOne({_id: convId}, {
-					$push: {
-						conv_users: new ObjectId(users[i])
-					}
-				}, function(err, res) {
-					console.log("matched count = " + res.matchedCount);
-					// on a push l'ID de cet user dans le field conv_users de la conv
-					// todo : envoyer une notification a chaque utilisateur
-				});
-			}
-		});
-	}
+	dbo.collection("conversations").findOne({
+		_id: convId
+	}, function(err, result) {
+		if (err) throw err;
+		if (result == null)
+			return ; // si la conv n'existe pas, il ne faut pas rajouter les utilisateurs dedans !
+		for (let i = 0; i < users.length; i++) {
+			dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
+				$push: {
+					convs_id: convId
+				}
+			}, function(err, res) {
+				// on a push la conv_id dans art.account[user].convs_id
+				if (res.matchedCount == 1) {
+					dbo.collection("conversations").updateOne({_id: convId}, {
+						$push: {
+							conv_users: new ObjectId(users[i])
+						}
+					}, function(err, res) {
+						console.log("matched count = " + res.matchedCount);
+						// on a push l'ID de cet user dans le field conv_users de la conv
+						// todo : envoyer une notification a chaque utilisateur
+					});
+				}
+			});
+		}
+	});
 }
 
 function create(obj, socket, dbo) {
