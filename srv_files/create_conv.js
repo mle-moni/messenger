@@ -1,4 +1,4 @@
-const mongo = require("./mongo_queries");
+// const mongo = require("./mongo_queries");
 
 module.exports = {
 	create,
@@ -6,7 +6,7 @@ module.exports = {
 };
 
 function create(users) {
-	
+
 }
 
 function searchUsers(name, socket, dbo) {
@@ -18,8 +18,14 @@ function searchUsers(name, socket, dbo) {
 		rgx: {psd: new RegExp(name, "i")},
 		projection: {_id: 1, psd: 1}
 	};
-	mongo.search_objs(query, "account", dbo, (err, res) => {
+
+	dbo.collection("account").find(query.rgx)
+	.project(query.projection)
+	.toArray((err, res) => {
 		if (err) throw err;
 		socket.emit("getUsers", res);
 	});
 }
+// dbo.collection("account").insertOne(accObj, function(err, res) {
+// 	if (err) throw err;
+// });

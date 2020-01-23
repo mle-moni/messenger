@@ -2,14 +2,17 @@
 	"conversations": [
 		{
 			"_id": "0",
+			"conv_name": "",
 			"conv_data": []
 		},
 		{
 			"_id": "1",
+			"conv_name": "",
 			"conv_data": []
 		},
 		{
 			"_id": "2",
+			"conv_name": "",
 			"conv_data": []
 		}
 	],
