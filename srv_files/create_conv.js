@@ -6,12 +6,32 @@ module.exports = {
 	setUserId
 };
 
+function deleteDoubles(obj) {
+	const previousUsers = [];
+	for (let i = 0; i < obj.users.length; i++) {
+		let bad = false;
+		for (let j = 0; j < previousUsers.length; j++) {
+			if (obj.users[i] === previousUsers[j]) {
+				bad = true;
+				break;
+			}
+		}
+		if (bad) {
+			obj.users.splice(i, 1);
+			i--;
+		} else {
+			previousUsers.push(obj.users[i]);
+		}
+	}
+}
+
 function create(obj, socket, dbo) {
 	obj.users.unshift(socket.userId);
 	if (obj.users.length < 2) {
 		socket.emit("log", `La conversation doit avoir plusieurs utilisateurs.`);
 		return ;
 	}
+	deleteDoubles(obj);
 	const convObj = {
 		conv_name: obj.convName,
 		conv_data: [],

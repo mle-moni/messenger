@@ -67,10 +67,10 @@ MongoClient.connect(url, {
 
 		socket.on("createConv", (users, convName)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (users.push !== undefined) {
+				if (users.push !== undefined && typeof(convName) === "string") {
 					conv.create({users, convName}, socket, dbo);
 				} else {
-					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array.");
+					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
