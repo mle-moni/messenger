@@ -5,48 +5,62 @@ module.exports = {
 	searchUsers,
 	setUserId,
 	quit,
-	get
+	get,
+	addUsers
 };
 
-function checkPrevious(obj, pos) {
+function checkPrevious(users, pos) {
 	for (let i = 0; i < pos; i++) {
-		if (obj.users[i] === obj.users[pos])
+		if (users[i] === users[pos])
 			return 1;
 	}
 	return 0;
 }
 
-function deleteDoubles(obj) {
-	for (let i = 0; i < obj.users.length; i++) {
-		if (checkPrevious(obj, i)) {
-			obj.users.splice(i, 1);
+function deleteDoubles(users) {
+	for (let i = 0; i < users.length; i++) {
+		if (checkPrevious(users, i)) {
+			users.splice(i, 1);
 			i--;
 		}
 	}
 }
 
+function addUsers(users, convId, socket, dbo) {
+	deleteDoubles(users);
+	for (let i = 0; i < users.length; i++) {
+		dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
+			$push: {
+				convs_id: convId
+			}
+		}, function(err, res) {
+			// on a push la conv_id dans art.account[user].convs_id
+			if (res.matchedCount == 1) {
+				dbo.collection("conversations").updateOne({_id: convId}, {
+					$push: {
+						conv_users: new ObjectId(users[i])
+					}
+				}, function(err, res) {
+					// on a push l'ID de cet user dans le field conv_users de la conv
+					// todo : envoyer une notification a chaque utilisateur
+				});
+			}
+		});
+	}
+}
+
 function create(obj, socket, dbo) {
 	obj.users.unshift(socket.userId.toString());
-	deleteDoubles(obj);
 	const convObj = {
 		conv_name: obj.convName,
 		conv_data: [],
-		conv_users: obj.users.map(str=>new ObjectId(str))
+		conv_users: []
 	};
 	dbo.collection("conversations").insertOne(convObj, function(err, res) {
 		if (err) throw err;
 		const newConvId = res.insertedId;
 		socket.emit("log", `La conversation : ${obj.convName} a bien été créée, son ID est ${newConvId}.`);
-		for (let i = 0; i < obj.users.length; i++) {
-			dbo.collection("account").updateOne({_id: new ObjectId(obj.users[i])}, {
-				$push: {
-					convs_id: newConvId
-				}
-			}, function(err, res) {
-				// on a push la nouvelle conv_ID dans chaque art.account[user].convs_id
-				// todo : envoyer une notification a chaque utilisateur
-			});
-		}
+		addUsers(obj.users, newConvId, socket, dbo);
 	});
 }
 

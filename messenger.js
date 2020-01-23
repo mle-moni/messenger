@@ -97,6 +97,20 @@ MongoClient.connect(url, {
 			}
 		});
 
+		// convs moderation
+
+		socket.on("addToConv", (users, convId)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (users.push !== undefined && typeof(convId) === "string") {
+					conv.addUsers(users, convId, socket, dbo);
+				} else {
+					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
 		socket.on("MAJ", txt=> {
 			if (socket.psd == "Redz") {
 				socket.broadcast.emit("MAJ", txt);
