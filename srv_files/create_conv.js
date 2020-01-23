@@ -101,6 +101,7 @@ function quit(convId, socket, dbo) {
 			}
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
+			console.log(res)
 			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
 		});
 	});
