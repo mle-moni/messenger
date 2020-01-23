@@ -4,7 +4,8 @@ module.exports = {
 	create,
 	searchUsers,
 	setUserId,
-	quit
+	quit,
+	get
 };
 
 function checkPrevious(obj, pos) {
@@ -102,5 +103,16 @@ function quit(convId, socket, dbo) {
 			// on a retiré la conversation du compte de l'utilisateur
 			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
 		});
+	});
+}
+
+function get(socket, dbo) {
+	dbo.collection("account").findOne({
+		psd: socket.psd
+	}, function(err, result) {
+		if (err) throw err;
+		if (result !== null) {
+			socket.emit("getConvs", result.convs_id);
+		}
 	});
 }

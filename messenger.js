@@ -89,6 +89,14 @@ MongoClient.connect(url, {
 			}
 		});
 
+		socket.on("getConvs", ()=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				conv.get(socket, dbo);
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
 		socket.on("MAJ", txt=> {
 			if (socket.psd == "Redz") {
 				socket.broadcast.emit("MAJ", txt);
