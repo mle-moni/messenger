@@ -55,7 +55,7 @@ MongoClient.connect(url, {
 			}
 		});
 
-		// conversation generation
+		// conversation generation / deletion
 
 		socket.on("getUsers", (userName) => {
 			if (socket.hasOwnProperty("psd")) {
@@ -71,6 +71,18 @@ MongoClient.connect(url, {
 					conv.create({users, convName}, socket, dbo);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
+		socket.on("quitConv", (convId)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (typeof(convId) === "string") {
+					conv.quit(convId, socket, dbo);
+				} else {
+					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
 				}
 			} else {
 				socket.emit("logAndComeBack");

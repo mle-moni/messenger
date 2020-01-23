@@ -3,24 +3,23 @@ const ObjectId = require('mongodb').ObjectId;
 module.exports = {
 	create,
 	searchUsers,
-	setUserId
+	setUserId,
+	quit
 };
 
+function checkPrevious(obj, pos) {
+	for (let i = 0; i < pos; i++) {
+		if (obj.users[i] === obj.users[pos])
+			return 1;
+	}
+	return 0;
+}
+
 function deleteDoubles(obj) {
-	const previousUsers = [];
 	for (let i = 0; i < obj.users.length; i++) {
-		let bad = false;
-		for (let j = 0; j < previousUsers.length; j++) {
-			if (obj.users[i] === previousUsers[j]) {
-				bad = true;
-				break;
-			}
-		}
-		if (bad) {
+		if (checkPrevious(obj, i)) {
 			obj.users.splice(i, 1);
 			i--;
-		} else {
-			previousUsers.push(obj.users[i]);
 		}
 	}
 }
@@ -85,5 +84,23 @@ function setUserId(userName, socket, dbo) {
 		if (result !== null) {
 			socket.userId = result._id;
 		}
+	});
+}
+
+function quit(convId, socket, dbo) {
+	dbo.collection("conversations").updateOne({_id: new ObjectId(convId)}, {
+		$pull: {
+			conv_users: new ObjectId(socket.userId)
+		}
+	}, function(err, res) {
+		// on a retiré l'utilisateur de la conversation
+		dbo.collection("account").updateOne({_id: new ObjectId(socket.userId)}, {
+			$pull: {
+				conv_users: new ObjectId(convId)
+			}
+		}, function(err, res) {
+			// on a retiré la conversation du compte de l'utilisateur
+			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
+		});
 	});
 }
