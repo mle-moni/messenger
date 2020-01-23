@@ -17,9 +17,12 @@ function checkPrevious(users, pos) {
 	return 0;
 }
 
-function deleteDoubles(users) {
+function deleteErrors(users) {
 	for (let i = 0; i < users.length; i++) {
 		if (checkPrevious(users, i)) {
+			users.splice(i, 1);
+			i--;
+		} else if (!(typeof(users[i]) === "string" && users[i].length === 24)) {
 			users.splice(i, 1);
 			i--;
 		}
@@ -27,7 +30,7 @@ function deleteDoubles(users) {
 }
 
 function addUsers(users, convId, socket, dbo) {
-	deleteDoubles(users);
+	deleteErrors(users);
 	for (let i = 0; i < users.length; i++) {
 		dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
 			$push: {
@@ -51,6 +54,11 @@ function addUsers(users, convId, socket, dbo) {
 
 function create(obj, socket, dbo) {
 	obj.users.unshift(socket.userId.toString());
+	deleteErrors(obj.users);
+	if (obj.users.length === 0) {
+		socket.emit("log", `La conversation : ${obj.convName} n'a pas été créée.`);
+		return ;
+	}
 	const convObj = {
 		conv_name: obj.convName,
 		conv_data: [],
