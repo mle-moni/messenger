@@ -88,7 +88,7 @@ function setUserId(userName, socket, dbo) {
 	});
 }
 
-function deleteConv(convId) {
+function deleteConv(convId, dbo) {
 	dbo.collection("conversations").deleteOne({
 		_id: new ObjectId(convId)
 	}, function(err, result) {
@@ -97,7 +97,7 @@ function deleteConv(convId) {
 	});
 }
 
-function testConv(convId) {
+function testConv(convId, dbo) {
 	dbo.collection("conversations").findOne({
 		_id: new ObjectId(convId)
 	}, function(err, result) {
@@ -124,7 +124,7 @@ function quit(convId, socket, dbo) {
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
 			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
-			testConv(convId);
+			testConv(convId, dbo);
 		});
 	});
 }
