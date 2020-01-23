@@ -1,4 +1,4 @@
-// const mongo = require("./mongo_queries");
+const ObjectId = require('mongodb').ObjectId;
 
 module.exports = {
 	create,
@@ -22,7 +22,7 @@ function create(obj, socket, dbo) {
 		const newConvId = res.insertedId;
 		socket.emit("log", `La conversation : ${obj.convName} a bien été créée, son ID est ${newConvId}.`);
 		for (let i = 0; i < obj.users.length; i++) {
-			dbo.collection("account").updateOne({_id: obj.users[i]}, {
+			dbo.collection("account").updateOne({_id: new ObjectId(obj.users[i])}, {
 				$push: {
 					convs_id: newConvId
 				}
