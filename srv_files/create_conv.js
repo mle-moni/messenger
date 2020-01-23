@@ -26,8 +26,7 @@ function deleteDoubles(obj) {
 }
 
 function create(obj, socket, dbo) {
-	obj.users.unshift(socket.userId.str);
-	console.log(socket.userId);
+	obj.users.unshift(socket.userId.toString());
 	if (obj.users.length < 2) {
 		socket.emit("log", `La conversation doit avoir plusieurs utilisateurs.`);
 		return ;
