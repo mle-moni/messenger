@@ -88,6 +88,28 @@ function setUserId(userName, socket, dbo) {
 	});
 }
 
+function deleteConv(convId) {
+	dbo.collection("conversations").deleteOne({
+		_id: new ObjectId(convId)
+	}, function(err, result) {
+		if (err) throw err;
+		console.log(`Conversation with ID : ${convId} deleted.`)
+	});
+}
+
+function testConv(convId) {
+	dbo.collection("conversations").findOne({
+		_id: new ObjectId(convId)
+	}, function(err, result) {
+		if (err) throw err;
+		if (result !== null) {
+			if (result.conv_users.length === 0) {
+				deleteConv(convId);
+			}
+		}
+	});
+}
+
 function quit(convId, socket, dbo) {
 	dbo.collection("conversations").updateOne({_id: new ObjectId(convId)}, {
 		$pull: {
@@ -102,6 +124,7 @@ function quit(convId, socket, dbo) {
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
 			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
+			testConv(convId);
 		});
 	});
 }
