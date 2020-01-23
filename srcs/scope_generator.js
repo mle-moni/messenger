@@ -48,6 +48,10 @@
 		console.log(res);
 	});
 
+	innerSocket.on("getConvs", res=>{
+		console.log(res);
+	});
+
 	innerSocket.on("MAJ", (txt)=>{
 		alert(txt);
 		location.reload();
