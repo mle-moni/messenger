@@ -26,7 +26,7 @@ function deleteDoubles(obj) {
 }
 
 function create(obj, socket, dbo) {
-	obj.users.unshift(socket.userId);
+	obj.users.unshift(socket.userId.str);
 	if (obj.users.length < 2) {
 		socket.emit("log", `La conversation doit avoir plusieurs utilisateurs.`);
 		return ;
@@ -35,7 +35,7 @@ function create(obj, socket, dbo) {
 	const convObj = {
 		conv_name: obj.convName,
 		conv_data: [],
-		conv_users: obj.users
+		conv_users: obj.users.map(str=>new ObjectId(str))
 	};
 	dbo.collection("conversations").insertOne(convObj, function(err, res) {
 		if (err) throw err;
@@ -91,11 +91,11 @@ function setUserId(userName, socket, dbo) {
 function quit(convId, socket, dbo) {
 	dbo.collection("conversations").updateOne({_id: new ObjectId(convId)}, {
 		$pull: {
-			conv_users: new ObjectId(socket.userId)
+			conv_users: socket.userId
 		}
 	}, function(err, res) {
 		// on a retiré l'utilisateur de la conversation
-		dbo.collection("account").updateOne({_id: new ObjectId(socket.userId)}, {
+		dbo.collection("account").updateOne({_id:  socket.userId}, {
 			$pull: {
 				conv_users: new ObjectId(convId)
 			}
