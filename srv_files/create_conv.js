@@ -104,7 +104,7 @@ function testConv(convId, dbo) {
 		if (err) throw err;
 		if (result !== null) {
 			if (result.conv_users.length === 0) {
-				deleteConv(convId);
+				deleteConv(convId, dbo);
 			}
 		}
 	});
