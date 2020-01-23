@@ -36,6 +36,7 @@ MongoClient.connect(url, {
 	
 		socket.on("connectemoistp", (obj, coSettings)=>{
 			connection.connect(obj, coSettings, socket, dbo);
+			conv.setUserId(obj.psd, socket, dbo);
 		});
 	
 		socket.on("testPsd", (psd, num)=>{
@@ -57,7 +58,23 @@ MongoClient.connect(url, {
 		// conversation generation
 
 		socket.on("getUsers", (userName) => {
-			conv.searchUsers(userName, socket, dbo);
+			if (socket.hasOwnProperty("psd")) {
+				conv.searchUsers(userName, socket, dbo);
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
+		socket.on("createConv", (users, convName)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (users.push !== undefined) {
+					conv.create({users, convName}, socket, dbo);
+				} else {
+					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
 		});
 
 		socket.on("MAJ", txt=> {

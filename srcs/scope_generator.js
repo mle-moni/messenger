@@ -51,5 +51,7 @@
 	innerSocket.on("MAJ", (txt)=>{
 		alert(txt);
 		location.reload();
-    });
+	});
+	
+	innerSocket.on("log", (txt)=>console.log(txt));
 })();

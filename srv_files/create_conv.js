@@ -2,11 +2,36 @@
 
 module.exports = {
 	create,
-	searchUsers
+	searchUsers,
+	setUserId
 };
 
-function create(users) {
-
+function create(obj, socket, dbo) {
+	obj.users.unshift(socket.userId);
+	if (obj.users.length < 2) {
+		socket.emit("log", `La conversation doit avoir plusieurs utilisateurs.`);
+		return ;
+	}
+	const convObj = {
+		conv_name: obj.convName,
+		conv_data: [],
+		conv_users: obj.users
+	};
+	dbo.collection("conversations").insertOne(convObj, function(err, res) {
+		if (err) throw err;
+		const newConvId = res.insertedId;
+		socket.emit("log", `La conversation : ${obj.convName} a bien été créée, son ID est ${newConvId}.`);
+		for (let i = 0; i < obj.users.length; i++) {
+			dbo.collection("account").updateOne({_id: obj.users[i]}, {
+				$push: {
+					convs_id: newConvId
+				}
+			}, function(err, res) {
+				// on a push la nouvelle conv_ID dans chaque art.account[user].convs_id
+				// todo : envoyer une notification a chaque utilisateur
+			});
+		}
+	});
 }
 
 function searchUsers(name, socket, dbo) {
@@ -23,9 +48,22 @@ function searchUsers(name, socket, dbo) {
 	.project(query.projection)
 	.toArray((err, res) => {
 		if (err) throw err;
+		for (let i = 0; i < res.length; i++) {
+			if (res[i].psd === socket.psd) {
+				res.splice(i, 1);
+			}
+		}
 		socket.emit("getUsers", res);
 	});
 }
-// dbo.collection("account").insertOne(accObj, function(err, res) {
-// 	if (err) throw err;
-// });
+
+function setUserId(userName, socket, dbo) {
+	dbo.collection("account").findOne({
+		psd: userName
+	}, function(err, result) {
+		if (err) throw err;
+		if (result !== null) {
+			socket.userId = result._id;
+		}
+	});
+}
