@@ -29,7 +29,9 @@ function deleteErrors(users) {
 	}
 }
 
-function addUsers(users, convId, socket, dbo) {
+function addUsers(users, convIdStr, socket, dbo) {
+	const convId = new ObjectId(convIdStr);
+
 	deleteErrors(users);
 	for (let i = 0; i < users.length; i++) {
 		dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
@@ -44,6 +46,7 @@ function addUsers(users, convId, socket, dbo) {
 						conv_users: new ObjectId(users[i])
 					}
 				}, function(err, res) {
+					console.log("matched count = " + res.matchedCount);
 					// on a push l'ID de cet user dans le field conv_users de la conv
 					// todo : envoyer une notification a chaque utilisateur
 				});
