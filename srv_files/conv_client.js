@@ -50,6 +50,18 @@ function rmUser(userIdStr, convIdStr, socket, dbo) {
 	});
 }
 
+function removeIfAlreadyThere(convUsers, newUsers) {
+	for (let i = 0; i < newUsers.length; i++) {
+		for (let j = 0; j < convUsers.length; j++) {
+			if (newUsers[i] === convUsers[j]) {
+				newUsers.splice(i, 1);
+				i--;
+				break ;
+			}
+		}
+	}
+}
+
 function addUsers(users, convIdStr, socket, dbo) {
 	const convId = new ObjectId(convIdStr);
 
@@ -65,8 +77,9 @@ function addUsers(users, convIdStr, socket, dbo) {
 			socket.emit("log", "Permission denied.");
 			return ;
 		}
-		users = result.conv_users.map(objId=>objId.toString()).concat(users);
 		deleteErrors(users);
+		const convUsers = result.conv_users.map(objId=>objId.toString());
+		removeIfAlreadyThere(convUsers, users);
 		for (let i = 0; i < users.length; i++) {
 			dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
 				$push: {
