@@ -53,13 +53,14 @@ function rmUser(userIdStr, convIdStr, socket, dbo) {
 function addUsers(users, convIdStr, socket, dbo) {
 	const convId = new ObjectId(convIdStr);
 
-	deleteErrors(users);
 	dbo.collection("conversations").findOne({
 		_id: convId
 	}, function(err, result) {
 		if (err) throw err;
 		if (result == null)
 			return ; // si la conv n'existe pas, il ne faut pas rajouter les utilisateurs dedans !
+		users = result.conv_users.concat(users);
+		deleteErrors(users);
 		for (let i = 0; i < users.length; i++) {
 			dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
 				$push: {

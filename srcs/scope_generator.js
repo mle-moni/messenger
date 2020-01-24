@@ -44,6 +44,13 @@
 		location.replace("/login");
 	});
 
+	innerSocket.on("deco", ()=>{
+		sessionStorage.clear()
+		localStorage.clear();
+		sessionStorage.setItem("goTo", location.pathname);
+	    location.replace("/login");
+	});
+
 	innerSocket.on("getUsers", res=>{
 		console.log(res);
 	});
@@ -56,6 +63,15 @@
 		alert(txt);
 		location.reload();
 	});
+
+	window.onfocus = () => {
+		if (connectObj.psd !== null && connectObj.passwd !== null) {
+			innerSocket.emit("connectemoistp", connectObj, "lazy");
+		} else {
+			sessionStorage.setItem("goTo", location.pathname);
+			location.replace("/login");
+		}
+	}
 	
 	innerSocket.on("log", (txt)=>console.log(txt));
 })();

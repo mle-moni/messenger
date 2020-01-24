@@ -86,13 +86,15 @@ function createAccount(obj, socket, dbo) {
 
 function connect(obj, coSettings, socket, dbo) {
     if (socket.hasOwnProperty("psd")) {
+        if (coSettings === "lazy")
+            return ;
         socket.emit("fail", "connect");
-                socket.emit("log", [{
-                    id: "result",
-                    msg: "Vous êtes déjà connecté au nom de "+
-                    socket.psd+
-                    ", <u style='' onclick='socket.emit(\"decomoi\"); let direc = sessionStorage.getItem(\"goTo\"); sessionStorage.clear(); localStorage.clear(); sessionStorage.setItem(\"goTo\", direc); document.getElementById(\"result\").innerHTML = \"\";'>Se déconnecter</u>"
-                }]);
+        socket.emit("log", [{
+            id: "result",
+            msg: "Vous êtes déjà connecté au nom de "+
+            socket.psd+
+            ", <u style='' onclick='socket.emit(\"decomoi\"); let direc = sessionStorage.getItem(\"goTo\"); sessionStorage.clear(); localStorage.clear(); sessionStorage.setItem(\"goTo\", direc); document.getElementById(\"result\").innerHTML = \"\";'>Se déconnecter</u>"
+        }]);
     } else {
         if (obj.hasOwnProperty("psd") && obj.hasOwnProperty("passwd")) {
             let userName = obj.psd;

@@ -38,6 +38,13 @@ MongoClient.connect(url, {
 			connection.connect(obj, coSettings, socket, dbo);
 			conv.setUserId(obj.psd, socket, dbo);
 		});
+
+		socket.on("decomoi", ()=>{
+            delete(socket.psd);
+			delete(socket.passwd);
+			delete(socket.userId);
+			socket.emit("deco");
+        });
 	
 		socket.on("testPsd", (psd, num)=>{
 			connection.testPsd(psd, num, socket, dbo);
