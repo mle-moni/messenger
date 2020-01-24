@@ -120,6 +120,7 @@ function connect(obj, coSettings, socket, dbo) {
                             msg: "Vous êtes bien connecté !"
                         }]);
                         socket.emit("succes_co");
+                        socket.emit("succes", obj);
                     } else {
                         socket.emit("fail", "connect");
                         socket.emit("log", [{
