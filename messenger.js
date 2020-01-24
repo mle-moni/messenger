@@ -78,9 +78,11 @@ MongoClient.connect(url, {
 		});
 
 		socket.on("quitConv", (convId)=>{
+			const succesMsg = `Vous avez quitté la conversation qui a pour ID : ${convId}.`;
+
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (typeof(convId) === "string" && convId.length === 24) {
-					conv.quit(convId, socket, dbo);
+					conv.quit(socket.userId.toString(), convId, socket, dbo, succesMsg);
 				} else {
 					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
 				}
@@ -105,6 +107,18 @@ MongoClient.connect(url, {
 					conv.addUsers(users, convId, socket, dbo);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
+		socket.on("rmFromConv", (userId, convId)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (typeof(userId) === "string" && userId.length === 24 && typeof(convId) === "string" && convId.length === 24) {
+					conv.rmUser(userId, convId, socket, dbo);
+				} else {
+					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. Le nom de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");

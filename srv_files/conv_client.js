@@ -6,7 +6,8 @@ module.exports = {
 	setUserId,
 	quit,
 	get,
-	addUsers
+	addUsers,
+	rmUser
 };
 
 function checkPrevious(users, pos) {
@@ -27,6 +28,26 @@ function deleteErrors(users) {
 			i--;
 		}
 	}
+}
+
+function rmUser(userIdStr, convIdStr, socket, dbo) {
+	const convId = new ObjectId(convIdStr);
+	const succesMsg = `Vous avez retiré l'utilisateur ${userIdStr} de la conversation ${convIdStr}`;
+
+	dbo.collection("conversations").findOne({
+		_id: convId
+	}, function(err, result) {
+		if (err) throw err;
+		if (!result) {
+			socket.emit("log", "Conversation introuvable.");
+			return ;
+		}
+		if (result.conv_users[0].toString() !== socket.userId.toString()) {
+			socket.emit("log", "Permission denied.");
+			return ;
+		}
+		quit(userIdStr, convIdStr, socket, dbo, succesMsg);
+	});
 }
 
 function addUsers(users, convIdStr, socket, dbo) {
@@ -137,20 +158,22 @@ function testConv(convId, dbo) {
 	});
 }
 
-function quit(convId, socket, dbo) {
-	dbo.collection("conversations").updateOne({_id: new ObjectId(convId)}, {
+function quit(userIdStr, convIdStr, socket, dbo, succesMsg) {
+	const userId = new ObjectId(userIdStr), convId = new ObjectId(convIdStr);
+
+	dbo.collection("conversations").updateOne({_id: convId}, {
 		$pull: {
-			conv_users: socket.userId
+			conv_users: userId
 		}
 	}, function(err, res) {
 		// on a retiré l'utilisateur de la conversation
-		dbo.collection("account").updateOne({_id:  socket.userId}, {
+		dbo.collection("account").updateOne({_id:  userId}, {
 			$pull: {
-				convs_id: new ObjectId(convId)
+				convs_id: convId
 			}
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
-			socket.emit("log", `Vous avez quitté la conversation qui a pour ID : ${convId}.`);
+			socket.emit("log", succesMsg);
 			testConv(convId, dbo);
 		});
 	});
