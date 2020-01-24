@@ -1,4 +1,4 @@
-function automaticReconnection() {
+function automaticReconnection(connectObj) {
 	if (connectObj.psd !== null && connectObj.passwd !== null) {
 		innerSocket.emit("connectemoistp", connectObj, "lazy");
 	} else {
@@ -21,7 +21,7 @@ function automaticReconnection() {
 		psd: sessionStorage.getItem('psd'),
 		passwd: sessionStorage.getItem('passwd')
 	};
-	automaticReconnection();
+	automaticReconnection(connectObj);
     
 	// sockets events
 	
@@ -54,11 +54,11 @@ function automaticReconnection() {
 	});
 
 	window.onfocus = () => {
-		automaticReconnection();
+		automaticReconnection(connectObj);
 	}
 	document.onvisibilitychange = function(e) { 
 		if (document.visibilityState === "visible")
-			automaticReconnection();
+			automaticReconnection(connectObj);
 	};
 
 	innerSocket.on("succes_co", ()=>{
