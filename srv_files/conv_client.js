@@ -57,8 +57,14 @@ function addUsers(users, convIdStr, socket, dbo) {
 		_id: convId
 	}, function(err, result) {
 		if (err) throw err;
-		if (result == null)
-			return ; // si la conv n'existe pas, il ne faut pas rajouter les utilisateurs dedans !
+		if (!result) {
+			socket.emit("log", "Conversation introuvable.");
+			return ;
+		}
+		if (result.conv_users[0].toString() !== socket.userId.toString()) {
+			socket.emit("log", "Permission denied.");
+			return ;
+		}
 		users = result.conv_users.concat(users);
 		deleteErrors(users);
 		for (let i = 0; i < users.length; i++) {
