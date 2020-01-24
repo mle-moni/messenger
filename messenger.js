@@ -54,14 +54,6 @@ MongoClient.connect(url, {
 			socket.emit("log1", Analyse);
 		});
 
-		socket.on("genScope", ()=>{
-			if (socket.hasOwnProperty("psd")) {
-				socket.emit("getId", socket.id, socket.psd);
-			} else {
-				socket.emit("logAndComeBack");
-			}
-		});
-
 		// conversation generation / deletion
 
 		socket.on("getUsers", (userName) => {

@@ -1,5 +1,5 @@
 (function () {
-    let scope = false;
+	let appReady = false;
 	const innerSocket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});
 
 	if (localStorage.getItem('psd')) {
@@ -18,26 +18,11 @@
         sessionStorage.setItem("goTo", location.pathname);
 	    location.replace("/login");
     }
-
-	innerSocket.emit("genScope");
-	function genScope(password, pseudo, socket) {
-	
-		const scope = {
-			password,
-			pseudo,
-			socket
-		};        
-		return scope;
-    }
     
-    // sockets events
-
-	innerSocket.on("getId", (id, psd) => {
-		scope = genScope(id, psd, innerSocket);
-		
-		// DEBUG MODE ONLY, A RETIRER !!!
-		window.scope = scope;
-	});
+	// sockets events
+	
+	// DEBUG MODE ONLY, A RETIRER !!!
+	window.socket = innerSocket;
 	
 	innerSocket.on("logAndComeBack", ()=>{
 		sessionStorage.setItem("goTo", location.pathname);
@@ -72,6 +57,16 @@
 			location.replace("/login");
 		}
 	}
+
+	innerSocket.on("succes_co", ()=>{
+		appReady = true;
+		console.log("Ready, app is now usable");
+	});
+
+	innerSocket.on("disconnect", ()=>{
+		appReady = false;
+		console.log("Disconnected, app is not longer usable");
+	});
 	
 	innerSocket.on("log", (txt)=>console.log(txt));
 })();

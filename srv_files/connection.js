@@ -119,7 +119,7 @@ function connect(obj, coSettings, socket, dbo) {
                             id: "result",
                             msg: "Vous êtes bien connecté !"
                         }]);
-                        socket.emit("succes", obj);
+                        socket.emit("succes_co");
                     } else {
                         socket.emit("fail", "connect");
                         socket.emit("log", [{
