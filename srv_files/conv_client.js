@@ -65,7 +65,7 @@ function addUsers(users, convIdStr, socket, dbo) {
 			socket.emit("log", "Permission denied.");
 			return ;
 		}
-		users = result.conv_users.concat(users);
+		users = result.conv_users.map(objId=>objId.toString()).concat(users);
 		deleteErrors(users);
 		for (let i = 0; i < users.length; i++) {
 			dbo.collection("account").updateOne({_id: new ObjectId(users[i])}, {
