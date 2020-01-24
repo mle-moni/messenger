@@ -94,6 +94,7 @@ function addUsers(users, convIdStr, socket, dbo) {
 						}
 					}, function(err, res) {
 						// on a push l'ID de cet user dans le field conv_users de la conv
+						socket.emit("log", "Utilisateurs ajoutés.");
 						// todo : envoyer une notification a chaque utilisateur
 					});
 				}
