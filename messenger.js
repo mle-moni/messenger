@@ -98,14 +98,14 @@ MongoClient.connect(url, {
 			}
 		});
 
-		// convs moderation
+		// convs moderation (these functions needs conv admin privileges)
 
 		socket.on("addToConv", (users, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && typeof(convId) === "string" && convId.length === 24) {
 					conv.addUsers(users, convId, socket, dbo);
 				} else {
-					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -117,7 +117,19 @@ MongoClient.connect(url, {
 				if (typeof(userId) === "string" && userId.length === 24 && typeof(convId) === "string" && convId.length === 24) {
 					conv.rmUser(userId, convId, socket, dbo);
 				} else {
-					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. Le nom de la conversation doit etre une chaine de charactere.");
+					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
+		socket.on("renameConv", (newName, convId)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (typeof(newName) === "string" && typeof(convId) === "string" && convId.length === 24) {
+					conv.rename(newName, convId, socket, dbo);
+				} else {
+					socket.emit("log", "Le nouveau nom de la conversation doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");

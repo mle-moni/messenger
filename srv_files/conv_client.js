@@ -7,7 +7,8 @@ module.exports = {
 	quit,
 	get,
 	addUsers,
-	rmUser
+	rmUser,
+	rename
 };
 
 function checkPrevious(users, pos) {
@@ -208,5 +209,32 @@ function get(socket, dbo) {
 		if (result !== null) {
 			socket.emit("getConvs", result.convs_id);
 		}
+	});
+}
+
+function rename(newName, convIdStr, socket, dbo) {
+	const convId = new ObjectId(convIdStr);
+	const succesMsg = `Vous avez renommé la conversation ${convIdStr} en ${newName}.`;
+
+	dbo.collection("conversations").findOne({
+		_id: convId
+	}, function(err, result) {
+		if (err) throw err;
+		if (!result) {
+			socket.emit("log", "Conversation introuvable.");
+			return ;
+		}
+		if (result.conv_users[0].toString() !== socket.userId.toString()) {
+			socket.emit("log", "Permission denied.");
+			return ;
+		}
+		dbo.collection("conversations").updateOne({_id:  userId}, {
+			$set: {
+				conv_name: newName
+			}
+		}, function(err, res) {
+			// on a renomé la conversation
+			socket.emit("log", succesMsg);
+		});
 	});
 }
