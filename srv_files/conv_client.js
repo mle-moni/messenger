@@ -131,7 +131,7 @@ function searchUsers(name, socket, dbo) {
 			return ;
 	}
 	const query = {
-		rgx: {psd: new RegExp(name, "i")},
+		rgx: new RegExp(name, "i"),
 		projection: {_id: 1, psd: 1}
 	};
 
