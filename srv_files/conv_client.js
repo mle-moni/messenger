@@ -139,7 +139,10 @@ function searchUsers(name, socket, dbo) {
 	.project(query.projection)
 	.toArray((err, res) => {
 		if (err) throw err;
-		res = res.map(obj => crypt.decode(obj.psd));
+		res = res.map(o => {
+			o.psd = crypt.decode(o.psd);
+			return o;
+		});
 		res = res.filter(obj => (obj.psd != socket.psd && query.rgx.test(obj.psd)));
 		socket.emit("getUsers", res);
 	});
