@@ -1,10 +1,10 @@
 const http = require('http');
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://art_admin:bonjour_BONJOUR_NANMAISREPONDFDP@localhost:27017/?authSource=art";
+const url = require("../global/db_url").art;
 
 const handler = require("./srv_files/handler").handle;
-const connection = require("./srv_files/connection");
+const connection = require("../global/connection");
 const conv = require("./srv_files/conv_client");
 
 const Analyse = {

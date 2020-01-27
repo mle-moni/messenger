@@ -1,4 +1,5 @@
 const ObjectId = require('mongodb').ObjectId;
+const crypt = require("../../global/crypt");
 
 module.exports = {
 	create,
@@ -134,22 +135,19 @@ function searchUsers(name, socket, dbo) {
 		projection: {_id: 1, psd: 1}
 	};
 
-	dbo.collection("account").find(query.rgx)
+	dbo.collection("account").find()
 	.project(query.projection)
 	.toArray((err, res) => {
 		if (err) throw err;
-		for (let i = 0; i < res.length; i++) {
-			if (res[i].psd === socket.psd) {
-				res.splice(i, 1);
-			}
-		}
+		res = res.map(obj => crypt.decode(obj.psd));
+		res = res.filter(obj => (obj.psd != socket.psd && query.rgx.test(obj.psd)));
 		socket.emit("getUsers", res);
 	});
 }
 
 function setUserId(userName, socket, dbo) {
 	dbo.collection("account").findOne({
-		psd: userName
+		psd: crypt.encode(userName)
 	}, function(err, result) {
 		if (err) throw err;
 		if (result !== null) {
@@ -203,7 +201,7 @@ function quit(userIdStr, convIdStr, socket, dbo, succesMsg) {
 
 function get(socket, dbo) {
 	dbo.collection("account").findOne({
-		psd: socket.psd
+		_id: socket.userId
 	}, function(err, result) {
 		if (err) throw err;
 		if (result !== null) {
