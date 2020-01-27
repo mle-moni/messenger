@@ -1,33 +1,19 @@
+const Hashes = require('jshashes');
+
 // Chaîne ucs-2 en ascii encodé en base64
-function uena(chn) {
-    return window.btoa(unescape(encodeURIComponent(chn)));
+function uena(str) {
+	return Buffer.from(encodeURIComponent(str), 'binary').toString('base64');
 }
 // Ascii encodé en base64 en chaîne ucs-2
-function aenu(chn) {
-    return decodeURIComponent(escape(window.atob(chn)));
-}
-
-function getScpecial(key) {
-	let hasharr = new Hashes.SHA256().b64(key).split("").map(c=>c.charCodeAt(0));
-	let num = 0;
-	for (let i = 0; i < hasharr.length; i++) {
-		if (hasharr[i] >= 65 && hasharr[i] <= 75)
-			num++;
-	}
-	// console.log(`num is ${num}`)
-	return (num);
+function aenu(str) {
+	return decodeURIComponent(Buffer.from(str, 'base64').toString('binary'));
 }
 
 function encode2(text, key) {
 	let tarr = text.split("").map(c=>c.charCodeAt(0));
 	let karr = key.split("").map(c=>c.charCodeAt(0));
 	let alphar = "qazwsxedcrfvtgbyhnujmikolp".split("").map(c=>c.charCodeAt(0));
-	let hash = new Hashes.SHA256().b64(key);
-	let hasharr = hash.split("").map(c=>c.charCodeAt(0));
-
-	// for (let i = 0; i < 10; i++) {
-	// 	tarr[i] -= getScpecial(key);
-	// }
+	let hasharr = new Hashes.SHA256().b64(key).split("").map(c=>c.charCodeAt(0));
 
 	for (let i = 0; i < hasharr.length; i+=10) {
 		tarr[i % Math.round(hasharr.length / 1.1)] ^= hasharr[i];
@@ -38,7 +24,6 @@ function encode2(text, key) {
 		let imolen = i % karr.length;
 		arr.push((tarr[i]));
 		arr[i] ^= karr[imolen];
-		// arr[i] -= getScpecial(key + karr[imolen] + "" + i);
 		arr[i] ^= karr[karr.length - imolen];
 		arr[i] ^= karr.length;
 		arr[i] ^= alphar[karr.length%26];
@@ -54,7 +39,6 @@ function encode2(text, key) {
 function encode(text, key) {
 	text = encode2(text, key);
 	text = encode2(text, key);
-	// text = encode2(text, key);
 	return text;
 }
 
@@ -76,17 +60,12 @@ function decode2(text, key) {
 		arr[i] ^= alphar[karr.length%26];
 		arr[i] ^= karr.length;
 		arr[i] ^= karr[karr.length - imolen];
-		// arr[i] += getScpecial(key + karr[imolen] + "" + i);
 		arr[i] ^= karr[imolen];
 	}
 
 	for (let i = 0; i < hasharr.length; i+=10) {
 		arr[i % Math.round(hasharr.length / 1.1)] ^= hasharr[i];
 	}
-
-	// for (let i = 0; i < 10; i++) {
-	// 	arr[i] += getScpecial(key);
-	// }
 
 	let str = arr.map(n=>String.fromCharCode(n)).join("");
 	return str;
@@ -95,7 +74,6 @@ function decode2(text, key) {
 function decode(text, key) {
 	text = decode2(text, key);
 	text = decode2(text, key);
-	// text = decode2(text, key);
 	return text;
 }
 
@@ -120,10 +98,10 @@ function getStr(n) {
 	return (str);
 }
 
-// for (let i = 10; i < 30; i++) {
-// 	  let test = encode(getStr(i), key);
-// 	  console.log(test)
-// }
+for (let i = 20; i < 40; i++) {
+	  let test = encode(getStr(i), key);
+	  console.log(test)
+}
 let timer = Date.now();
 encode(getStr(10000000), key);
 console.log("done in " + ((Date.now() - timer) / 1000) + " seconds")
