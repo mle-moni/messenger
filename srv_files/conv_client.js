@@ -113,7 +113,7 @@ function create(obj, socket, dbo) {
 		return ;
 	}
 	const convObj = {
-		conv_name: obj.convName,
+		conv_name: crypt.aesEncode(obj.convName),
 		conv_data: [],
 		conv_users: []
 	};
