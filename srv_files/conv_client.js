@@ -75,7 +75,7 @@ function addUsers(users, convIdStr, socket, dbo) {
 			socket.emit("log", "Conversation introuvable.");
 			return ;
 		}
-		if (result.conv_users[0].toString() !== socket.userId.toString()) {
+		if (result.conv_users.length !== 0 && result.conv_users[0].toString() !== socket.userId.toString()) {
 			socket.emit("log", "Permission denied.");
 			return ;
 		}
