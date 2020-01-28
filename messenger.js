@@ -61,7 +61,7 @@ MongoClient.connect(url, {
 				if (typeof(userName) === "string") {
 					conv.searchUsers(userName, socket, dbo);
 				} else {
-					socket.emit("logs", "Le pseudo doit etre une chaine de charactere.");
+					socket.emit("log", "Le pseudo doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -71,7 +71,16 @@ MongoClient.connect(url, {
 		socket.on("createConv", (users, convName)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && typeof(convName) === "string") {
-					conv.create({users, convName}, socket, dbo);
+					let formatOk = true;
+					users.map(str=>{
+						if (typeof(str) !== "string" || str.length !== 24)
+							formatOk = false;
+						return (str);
+					});
+					if (formatOk)
+						conv.create({users, convName}, socket, dbo);
+					else
+						socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
 				}
@@ -107,7 +116,14 @@ MongoClient.connect(url, {
 		socket.on("addToConv", (users, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && typeof(convId) === "string" && convId.length === 24) {
-					conv.addUsers(users, convId, socket, dbo);
+					let formatOk = true;
+					users.map(str=>{
+						if (typeof(str) !== "string" || str.length !== 24)
+							formatOk = false;
+						return (str);
+					});
+					if (formatOk)
+						conv.addUsers(users, convId, socket, dbo);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
 				}
