@@ -58,7 +58,11 @@ MongoClient.connect(url, {
 
 		socket.on("getUsers", (userName) => {
 			if (socket.hasOwnProperty("psd")) {
-				conv.searchUsers(userName, socket, dbo);
+				if (typeof(userName) === "string") {
+					conv.searchUsers(userName, socket, dbo);
+				} else {
+					socket.emit("logs", "Le pseudo doit etre une chaine de charactere.");
+				}
 			} else {
 				socket.emit("logAndComeBack");
 			}
