@@ -47,6 +47,11 @@
 		console.log(res);
 	});
 
+	innerSocket.on("newMsg", (msgObj, convId) => {
+		console.log(`Nouveau message de la conversation ${convId} :`);
+		console.log(`${msgObj.time} - ${msgObj.user_msg} : ${msgObj.user_msg}`);
+	});
+
 	innerSocket.on("MAJ", (txt)=>{
 		alert(txt);
 		location.reload();

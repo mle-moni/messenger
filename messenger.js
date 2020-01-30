@@ -159,7 +159,7 @@ MongoClient.connect(url, {
 		socket.on("newMsg", (msg, convId) => {
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (conv.isMongoID(convId)) {
-					msg_client.newMsg(msg, convId, socket, dbo);
+					msg_client.newMsg(msg, convId, socket, dbo, io);
 				} else {
 					socket.emit("log", "L'ID de la conversation doit etre une chaine de charactere.");
 				}
