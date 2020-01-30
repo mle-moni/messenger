@@ -38,9 +38,8 @@ function deleteErrors(users) {
 	}
 }
 
-function rmUser(userIdStr, convIdStr, socket, dbo) {
+function rmUser(userIdStr, convIdStr, socket, dbo, io) {
 	const convId = new ObjectId(convIdStr);
-	const succesMsg = `Vous avez retiré l'utilisateur ${userIdStr} de la conversation ${convIdStr}`;
 
 	dbo.collection("conversations").findOne({
 		_id: convId
@@ -54,7 +53,7 @@ function rmUser(userIdStr, convIdStr, socket, dbo) {
 			socket.emit("log", "Permission denied.");
 			return ;
 		}
-		quit(userIdStr, convIdStr, socket, dbo, succesMsg);
+		quit(userIdStr, convIdStr, socket, dbo, io);
 	});
 }
 
@@ -70,10 +69,10 @@ function removeIfAlreadyThere(convUsers, newUsers) {
 	}
 }
 
-function makeUserJoinRoom(userId, room, sockets) {
+function makeUserActionRoom(userId, action, room, sockets) {
 	for (let socketId in sockets) {
 		if (sockets[socketId].userId.toString() === userId.toString()) {
-			sockets[socketId].join(room);
+			sockets[socketId][action](room);
 			break ;
 		}
 	}
@@ -112,7 +111,7 @@ function addUsers(users, convIdStr, socket, dbo, io) {
 					}, function(err, res) {
 						// on a push l'ID de cet user dans le field conv_users de la conv
 						socket.emit("log", `L'utilisateur avec l'ID : ${users[i]} a été ajouté.`);
-						makeUserJoinRoom(users[i], convId.toString(), io.sockets.connected);
+						makeUserActionRoom(users[i], "join", convId.toString(), io.sockets.connected);
 						// todo : envoyer une notification a chaque utilisateur
 					});
 				}
@@ -186,7 +185,7 @@ function testConv(convId, dbo) {
 	});
 }
 
-function quit(userIdStr, convIdStr, socket, dbo, succesMsg) {
+function quit(userIdStr, convIdStr, socket, dbo, io) {
 	const userId = new ObjectId(userIdStr), convId = new ObjectId(convIdStr);
 
 	dbo.collection("conversations").updateOne({_id: convId}, {
@@ -201,7 +200,8 @@ function quit(userIdStr, convIdStr, socket, dbo, succesMsg) {
 			}
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
-			socket.emit("log", succesMsg);
+			makeUserActionRoom(userIdStr, "leave", convIdStr, io.sockets.connected);
+			socket.emit("log", `Vous avez retiré l'utilisateur ${userIdStr} de la conversation ${convIdStr}`);
 			testConv(convId, dbo);
 		});
 	});

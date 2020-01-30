@@ -90,11 +90,9 @@ MongoClient.connect(url, {
 		});
 
 		socket.on("quitConv", (convId)=>{
-			const succesMsg = `Vous avez quitté la conversation qui a pour ID : ${convId}.`;
-
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (conv.isMongoID(convId)) {
-					conv.quit(socket.userId.toString(), convId, socket, dbo, succesMsg);
+					conv.quit(socket.userId.toString(), convId, socket, dbo, io);
 				} else {
 					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
 				}
@@ -135,7 +133,7 @@ MongoClient.connect(url, {
 		socket.on("rmFromConv", (userId, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (conv.isMongoID(userId) && conv.isMongoID(convId)) {
-					conv.rmUser(userId, convId, socket, dbo);
+					conv.rmUser(userId, convId, socket, dbo, io);
 				} else {
 					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
 				}
