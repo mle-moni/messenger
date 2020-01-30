@@ -21,7 +21,7 @@ function newMsg(msg, convIdStr, socket, dbo, io) {
     }
     const msgObj = {
         time: new Date(),
-        user_id: socket.userId,
+        user_id: socket.userId.toString(),
         user_msg: msg.txt
     };
     const msgToStore = {
