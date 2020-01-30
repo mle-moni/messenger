@@ -70,7 +70,16 @@ function removeIfAlreadyThere(convUsers, newUsers) {
 	}
 }
 
-function addUsers(users, convIdStr, socket, dbo) {
+function makeUserJoinRoom(userId, room, sockets) {
+	for (let socketId in sockets) {
+		if (sockets[socketId].userId.toString() === userId.toString()) {
+			sockets[socketId].join(room);
+			break ;
+		}
+	}
+}
+
+function addUsers(users, convIdStr, socket, dbo, io) {
 	const convId = new ObjectId(convIdStr);
 
 	dbo.collection("conversations").findOne({
@@ -103,6 +112,7 @@ function addUsers(users, convIdStr, socket, dbo) {
 					}, function(err, res) {
 						// on a push l'ID de cet user dans le field conv_users de la conv
 						socket.emit("log", `L'utilisateur avec l'ID : ${users[i]} a été ajouté.`);
+						makeUserJoinRoom(users[i], convId.toString(), io.sockets.connected);
 						// todo : envoyer une notification a chaque utilisateur
 					});
 				}
@@ -111,7 +121,7 @@ function addUsers(users, convIdStr, socket, dbo) {
 	});
 }
 
-function create(obj, socket, dbo) {
+function create(obj, socket, dbo, io) {
 	obj.users.unshift(socket.userId.toString());
 	deleteErrors(obj.users);
 	if (obj.users.length === 0) {
@@ -127,7 +137,7 @@ function create(obj, socket, dbo) {
 		if (err) throw err;
 		const newConvId = res.insertedId;
 		socket.emit("log", `La conversation : ${obj.convName} a bien été créée, son ID est ${newConvId}.`);
-		addUsers(obj.users, newConvId, socket, dbo);
+		addUsers(obj.users, newConvId, socket, dbo, io);
 	});
 }
 
