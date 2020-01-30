@@ -49,7 +49,8 @@
 
 	innerSocket.on("newMsg", (msgObj, convId) => {
 		console.log(`Nouveau message de la conversation ${convId} :`);
-		console.log(`${msgObj.time.getHours()}h${msgObj.time.getMinutes()} - ${msgObj.user_id} : ${msgObj.user_msg}`);
+		let time = new Date(msgObj.time)
+		console.log(`${time.getHours()}h${time.getMinutes()} - ${msgObj.user_id} : ${msgObj.user_msg}`);
 	});
 
 	innerSocket.on("MAJ", (txt)=>{
