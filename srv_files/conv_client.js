@@ -4,7 +4,6 @@ const crypt = require("../../global/crypt");
 module.exports = {
 	create,
 	searchUsers,
-	setUserId,
 	quit,
 	get,
 	addUsers,
@@ -152,17 +151,6 @@ function searchUsers(name, socket, dbo) {
 		});
 		res = res.filter(obj => (obj.psd != socket.psd && query.rgx.test(obj.psd)));
 		socket.emit("getUsers", res);
-	});
-}
-
-function setUserId(userName, socket, dbo) {
-	dbo.collection("account").findOne({
-		psd: crypt.encode(userName)
-	}, function(err, result) {
-		if (err) throw err;
-		if (result !== null) {
-			socket.userId = result._id;
-		}
 	});
 }
 

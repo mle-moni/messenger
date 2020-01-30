@@ -6,6 +6,7 @@ const url = require("../global/db_url").art;
 const handler = require("./srv_files/handler").handle;
 const connection = require("../global/connection");
 const conv = require("./srv_files/conv_client");
+const msg_client = require("./srv_files/msg_client");
 
 const Analyse = {
     connnected: 0,
@@ -36,7 +37,6 @@ MongoClient.connect(url, {
 	
 		socket.on("connectemoistp", (obj, coSettings)=>{
 			connection.connect(obj, coSettings, socket, dbo);
-			conv.setUserId(obj.psd, socket, dbo);
 		});
 
 		socket.on("decomoi", ()=>{
@@ -157,8 +157,14 @@ MongoClient.connect(url, {
 		});
 
 		socket.on("newMsg", (msg, convId) => {
-			if (conv.isMongoID(convId)) {
-				
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (conv.isMongoID(convId)) {
+					msg_client.newMsg(msg, convId, socket, dbo);
+				} else {
+					socket.emit("log", "L'ID de la conversation doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
 			}
 		});
 
