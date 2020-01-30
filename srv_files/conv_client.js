@@ -9,8 +9,15 @@ module.exports = {
 	get,
 	addUsers,
 	rmUser,
-	rename
+	rename,
+	isMongoID
 };
+
+function isMongoID(str) {
+	if (typeof(str) === "string" && str.length === 24)
+		return (true);
+	return (false);
+}
 
 function checkPrevious(users, pos) {
 	for (let i = 0; i < pos; i++) {
@@ -25,7 +32,7 @@ function deleteErrors(users) {
 		if (checkPrevious(users, i)) {
 			users.splice(i, 1);
 			i--;
-		} else if (!(typeof(users[i]) === "string" && users[i].length === 24)) {
+		} else if (!isMongoID(users[i])) {
 			users.splice(i, 1);
 			i--;
 		}

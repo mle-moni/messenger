@@ -93,7 +93,7 @@ MongoClient.connect(url, {
 			const succesMsg = `Vous avez quitté la conversation qui a pour ID : ${convId}.`;
 
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (typeof(convId) === "string" && convId.length === 24) {
+				if (conv.isMongoID(convId)) {
 					conv.quit(socket.userId.toString(), convId, socket, dbo, succesMsg);
 				} else {
 					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
@@ -115,7 +115,7 @@ MongoClient.connect(url, {
 
 		socket.on("addToConv", (users, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (users.push !== undefined && typeof(convId) === "string" && convId.length === 24) {
+				if (users.push !== undefined && conv.isMongoID(convId)) {
 					let formatOk = true;
 					users.map(str=>{
 						if (typeof(str) !== "string" || str.length !== 24)
@@ -134,7 +134,7 @@ MongoClient.connect(url, {
 
 		socket.on("rmFromConv", (userId, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (typeof(userId) === "string" && userId.length === 24 && typeof(convId) === "string" && convId.length === 24) {
+				if (conv.isMongoID(userId) && conv.isMongoID(convId)) {
 					conv.rmUser(userId, convId, socket, dbo);
 				} else {
 					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
@@ -146,13 +146,19 @@ MongoClient.connect(url, {
 
 		socket.on("renameConv", (newName, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
-				if (typeof(newName) === "string" && typeof(convId) === "string" && convId.length === 24) {
+				if (typeof(newName) === "string" && conv.isMongoID(convId)) {
 					conv.rename(newName, convId, socket, dbo);
 				} else {
 					socket.emit("log", "Le nouveau nom de la conversation doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
+			}
+		});
+
+		socket.on("newMsg", (msg, convId) => {
+			if (conv.isMongoID(convId)) {
+				
 			}
 		});
 
