@@ -47,6 +47,10 @@
 		console.log(res);
 	});
 
+	innerSocket.on("conversation", convObj=>{
+		console.log(convObj);
+	});
+
 	innerSocket.on("newMsg", (msgObj, convId) => {
 		console.log(`Nouveau message de la conversation ${convId} :`);
 		let time = new Date(msgObj.time)
