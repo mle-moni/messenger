@@ -1,0 +1,82 @@
+html {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.body_show_list {
+	display: grid;
+	grid-gap: 20px;
+	grid-template-rows: 100%;
+	grid-template-columns: 100%;
+	grid-template-areas: "chose_conv";
+}
+
+.body_show_conv {
+	display: grid;
+	grid-gap: 20px;
+	grid-template-rows: 100%;
+	grid-template-columns: 100%;
+	grid-template-areas: "conv";
+}
+
+#chose_conv {
+	grid-area: chose_conv;
+}
+
+#chose_conv_container {
+	border-style: solid;
+	padding: 20px;
+	transition: all 0.7s;
+	width: auto;
+	height: auto;
+}
+
+#conversation {
+	display: none;
+	border-style: solid;
+	padding: 20px;
+	grid-area: conv;
+}
+
+.clickable {
+	cursor: pointer;
+	text-align: center;
+}
+
+#conv_list {
+	transition: all 1s;
+}
+
+#conv_list_title {
+	text-align: center;
+}
+
+#conv_name_container {
+	display: grid;
+	grid-template-columns: 50px auto 80px;
+}
+
+#conv_name {
+	display: flex;
+}
+
+.conv_name_list {
+	border: 0.1px solid;
+	text-align: center;
+	background-color: rgba(122, 46, 46, 0.308);
+}
+
+#input {
+	display: grid;
+	grid-template-columns: 90% auto;
+	border: solid;
+}
+
+/* @media only screen and (min-width: 700px) {
+	#conversation {
+		display: none;
+	}
+	body {
+		grid-template-columns: 33% auto;
+		grid-template-areas: "chose_conv" "conv";
+	}
+} */

@@ -3,14 +3,95 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width"/>
     <title>Messagerie</title>
-    <script>let G_MODE = "add";</script>
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+    <script>console.warn("V-0.1 ALPHA")</script>
     <script src="srcs/html_conv_object.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="srcs/scope_generator.js"></script>
+    <script>
+        
+        function hideConvList() {
+            const choseConv = document.getElementById("chose_conv");
+
+            document.body.classList.remove("body_show_list");
+            document.body.classList.add("body_show_conv");
+            choseConv.style.display = "none";            
+            document.getElementById("conversation").style.display = "block";
+        }
+        function showConvList() {
+            const choseConv = document.getElementById("chose_conv");
+
+            document.body.classList.remove("body_show_conv");
+            document.body.classList.add("body_show_list");
+            choseConv.style.display = "block";
+            document.getElementById("conversation").style.display = "none";
+        }
+    </script>
 </head>
-<body>
-    Version 0.0
+<body class="body_show_list">
+    <nav id="chose_conv">
+        <div id="chose_conv_container">
+            <h2 id="conv_list_title" >Vos Conversations</h2>
+            <div id="conv_list">
+                <p class="clickable conv_name_list" >+</p>
+                <p class="clickable conv_name_list" onclick="hideConvList()">Salut</p>
+                <p class="clickable conv_name_list" >oui c'est super je suis emu par ton comportement des plus devoué, c'est vraiment super</p>
+                <p class="clickable conv_name_list" >oui c'est jj</p>
+                <p class="clickable conv_name_list" >oui c'est ff</p>
+                <p class="clickable conv_name_list" >oui c'est bb</p>
+                <p class="clickable conv_name_list" >oui c'est ff</p>
+                <p class="clickable conv_name_list" >oui c'est bb</p>
+                <p class="clickable conv_name_list" >oui c'est ff</p>
+                <p class="clickable conv_name_list" >oui c'est bb</p>
+                <p class="clickable conv_name_list" >oui c'est ff</p>
+                <p class="clickable conv_name_list" >oui c'est bb</p>
+                <p class="clickable conv_name_list" >oui c'est ff</p>
+                <p class="clickable conv_name_list" >oui c'est bb</p>
+            </div>
+        </div>
+    </nav>
+    <article id="conversation-block">
+        <div id="conversation">
+            <div id="conv_name_container">
+                <h4 class="clickable" onclick="showConvList()">Retour</h4>
+                <div id="conv_name"><h1 style="margin: auto;">Conversation name:</h1></div>
+                <h5 class="clickable">Edit conversation</h5>
+            </div>
+            <h2 id="conv_users_list">Users: user1, user2, user3</h2>
+            <div id="msg_list">
+                <p>Salut, c'est le premier message</p>
+                <p>Salut, c'est le deuxieme message</p>
+                <p>Salut, c'est le un tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres
+                     tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres 
+                    tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres long message
+                </p>
+                <p>Salut, c'est le premier message</p>
+                <p>Salut, c'est le deuxieme message</p>
+                <p>Salut, c'est le un tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres
+                     tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres 
+                    tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres long message
+                </p>
+                <p>Salut, c'est le premier message</p>
+                <p>Salut, c'est le deuxieme message</p>
+                <p>Salut, c'est le un tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres
+                     tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres 
+                    tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres long message
+                </p>
+                <p>Salut, c'est le premier message</p>
+                <p>Salut, c'est le deuxieme message</p>
+                <p>Salut, c'est le un tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres
+                     tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres 
+                    tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres tres long message
+                </p>
+                
+            </div>
+            <div id="input">
+                <input type="text" style="font-size: 20px;"><p class="clickable">Envoyer</p>
+            </div>
+        </div>
+    </article>
 </body>
 
 </html>
