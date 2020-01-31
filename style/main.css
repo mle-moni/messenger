@@ -52,7 +52,7 @@ html {
 
 #conv_name_container {
 	display: grid;
-	grid-template-columns: 50px auto 80px;
+	grid-template-columns: 80px auto 80px;
 }
 
 #conv_name {
@@ -62,12 +62,12 @@ html {
 .conv_name_list {
 	border: 0.1px solid;
 	text-align: center;
-	background-color: rgba(122, 46, 46, 0.308);
+	background-color: rgba(94, 74, 74, 0.185);
 }
 
 #input {
 	display: grid;
-	grid-template-columns: 90% auto;
+	/* grid-template-columns: 90% auto; */
 	border: solid;
 }
 
