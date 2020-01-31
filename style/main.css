@@ -38,7 +38,7 @@ body {
 #conversation {
 	height: 90%;
 	display: none;
-	grid-template-rows: 25% auto 50px;
+	grid-template-rows: 30% auto 50px;
 	padding: 20px;
 	grid-area: conv;
 	max-height: 95vh;
@@ -65,6 +65,7 @@ body {
 .conv_name_list {
 	border: 0.1px solid;
 	text-align: center;
+	padding: 5px;
 	background-color: rgba(94, 74, 74, 0.185);
 }
 
