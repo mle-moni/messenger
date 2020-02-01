@@ -78,7 +78,8 @@
 	};
 
 	innerSocket.on("tryAutomaticReco", ()=>{
-		automaticReconnection(connectObj, innerSocket);
+		if (document.visibilityState === "visible")
+			automaticReconnection(connectObj, innerSocket);
 	});
 
 	innerSocket.on("succes_co", ()=>{
