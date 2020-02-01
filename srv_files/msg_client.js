@@ -45,6 +45,7 @@ function newMsg(msg, convIdStr, socket, dbo, io) {
         }, function(err, res) {
             if (res.matchedCount == 1) {
                 // on a push le nouveau message
+                msgObj.user_id = crypt.encode(msgObj.user_id);
                 io.to(convIdStr).emit("newMsg", msgObj, convIdStr);
             }
         });
