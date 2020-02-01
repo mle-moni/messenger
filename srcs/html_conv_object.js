@@ -67,5 +67,6 @@ class ConvObject {
     }
     sendMsg(txt) {
         this.socket.emit("newMsg", {txt}, this.current);
+        document.getElementById("input").value = "";
     }
 }
