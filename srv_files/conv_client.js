@@ -160,7 +160,13 @@ function searchUsers(name, socket, dbo) {
 			o.psd = crypt.decode(o.psd);
 			return o;
 		});
-		res = res.filter(obj => (query.rgx.test(obj.psd)));
+		if (/^-o equal/.test(name)) {
+			name = name.slice(8);
+			res = res.filter(obj => (name === obj.psd));
+		} else {
+
+			res = res.filter(obj => (query.rgx.test(obj.psd)));
+		}
 		socket.emit("getUsers", res);
 	});
 }
