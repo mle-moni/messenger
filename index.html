@@ -11,21 +11,10 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="srcs/scope_generator.js"></script>
     <script>
-        
-        function hideConvList() {
-            const choseConv = document.getElementById("chose_conv");
-
-            document.body.classList.remove("body_show_list");
-            document.body.classList.add("body_show_conv");
-            choseConv.style.display = "none";            
-            // document.getElementById("conversation").style.display = "block";
-            document.getElementById("conversation").style.display = "grid";
-        }
         function showConvList() {
             const choseConv = document.getElementById("chose_conv");
 
-            document.body.classList.remove("body_show_conv");
-            document.body.classList.add("body_show_list");
+            document.body.classList.replace("body_show_conv", "body_show_list");
             choseConv.style.display = "block";
             document.getElementById("conversation").style.display = "none";
         }
@@ -38,18 +27,6 @@
             <div id="conv_list">
                 <p class="clickable conv_name_list" >+</p>
                 <p class="clickable conv_name_list" onclick="hideConvList()">Salut</p>
-                <p class="clickable conv_name_list" >oui c'est super je suis emu par ton comportement des plus devoué, c'est vraiment super</p>
-                <p class="clickable conv_name_list" >oui c'est jj</p>
-                <p class="clickable conv_name_list" >oui c'est ff</p>
-                <p class="clickable conv_name_list" >oui c'est bb</p>
-                <p class="clickable conv_name_list" >oui c'est ff</p>
-                <p class="clickable conv_name_list" >oui c'est bb</p>
-                <p class="clickable conv_name_list" >oui c'est ff</p>
-                <p class="clickable conv_name_list" >oui c'est bb</p>
-                <p class="clickable conv_name_list" >oui c'est ff</p>
-                <p class="clickable conv_name_list" >oui c'est bb</p>
-                <p class="clickable conv_name_list" >oui c'est ff</p>
-                <p class="clickable conv_name_list" >oui c'est bb</p>
             </div>
         </div>
     </nav>

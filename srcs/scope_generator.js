@@ -9,6 +9,7 @@
 	}
 	let appReady = false;
 	const innerSocket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});
+	const conversations = new ConvObject();
 
 	if (localStorage.getItem('psd')) {
 		sessionStorage.setItem('psd', localStorage.getItem('psd'))
@@ -49,6 +50,8 @@
 
 	innerSocket.on("conversation", convObj=>{
 		console.log(convObj);
+		conversations.newConv(convObj);
+		
 	});
 
 	innerSocket.on("newMsg", (msgObj, convId) => {
