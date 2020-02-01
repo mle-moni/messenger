@@ -119,6 +119,28 @@ function addUsers(users, convIdStr, socket, dbo, io) {
 				}
 			});
 		}
+		
+		// emit conv to new users
+		setTimeout(()=>{
+			dbo.collection("conversations").findOne({
+				_id: convId
+			}, function(err, result) {
+				if (result !== null) {
+					result.conv_name = crypt.aesDecode(result.conv_name);
+					result.conv_data = result.conv_data.map(o=>{
+						o.user_id = crypt.encode(crypt.aesDecode(o.user_id));
+						o.user_msg = crypt.aesDecode(o.user_msg);
+						return (o);
+					});
+					result.conv_users = result.conv_users.map(id=>{
+						return (crypt.encode(id.toString()));
+					});
+					for (let i = 0; i < users.length; i++) {
+						io.to(users[i]).emit("conversation", result);
+					}
+				}
+			});
+		}, 1000);
 	});
 }
 
