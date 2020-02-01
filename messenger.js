@@ -75,7 +75,7 @@ MongoClient.connect(url, {
 					let obj = conv.verifUsers(users);
 
 					users = obj.users;
-					if (users.ok)
+					if (obj.ok)
 						conv.create({users, convName}, socket, dbo, io);
 					else
 						socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
@@ -115,7 +115,7 @@ MongoClient.connect(url, {
 					let obj = conv.verifUsers(users);
 
 					users = obj.users;
-					if (users.ok)
+					if (obj.ok)
 						conv.addUsers(users, convId, socket, dbo, io);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
