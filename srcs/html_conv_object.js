@@ -4,6 +4,11 @@ class ConvObject {
         this.conversations = [];
         this.usersTable = [];
         this.current = "";
+        document.getElementById("input").addEventListener("keydown", e=>{
+            if (e.keyCode === 13) {
+                this.sendMsg(document.getElementById("input").value);
+            }
+        });
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -51,7 +56,16 @@ class ConvObject {
         // p.classList.add()
         msgList.appendChild(p);
     }
+    appendMsg(msgObj, convID) {
+        this.conversations[convID].conv_data.push(msgObj);
+        if (convID === this.current) {
+            this.newMsg(msgObj);
+        }
+    }
     updateUsersTable(userObj) {
         this.usersTable[userObj._id] = userObj.psd;
+    }
+    sendMsg(txt) {
+        this.socket.emit("newMsg", {txt}, this.current);
     }
 }

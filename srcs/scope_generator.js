@@ -62,6 +62,7 @@
 		console.log(`Nouveau message de la conversation ${convId} :`);
 		let time = new Date(msgObj.time)
 		console.log(`${time.getHours()}h${time.getMinutes()} - ${msgObj.user_id} : ${msgObj.user_msg}`);
+		conversations.appendMsg(msgObj, convId);
 	});
 
 	innerSocket.on("MAJ", (txt)=>{

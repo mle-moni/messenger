@@ -76,7 +76,7 @@ body {
 	overflow-y: auto;
 }
 
-#input {
+#input_container {
 	display: grid;
 	/* grid-template-columns: 90% auto; */
 	border: solid;
