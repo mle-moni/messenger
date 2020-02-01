@@ -31,7 +31,7 @@ MongoClient.connect(url, {
 	io.on('connection', function (socket) {
 		Analyse.connnected++;
 		Analyse.total++;
-		socket.emit("logAndComeBack");
+		socket.emit("tryAutomaticReco");
 	
 		socket.on("createAcc", (obj)=>{
 			connection.createAccount(obj, socket, dbo);            

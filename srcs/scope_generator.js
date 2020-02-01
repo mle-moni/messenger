@@ -70,6 +70,10 @@
 			automaticReconnection(connectObj, innerSocket);
 	};
 
+	innerSocket.on("tryAutomaticReco", ()=>{
+		automaticReconnection(connectObj, innerSocket);
+	});
+
 	innerSocket.on("succes_co", ()=>{
 		appReady = true;
 		console.log("Ready, app is now usable");
