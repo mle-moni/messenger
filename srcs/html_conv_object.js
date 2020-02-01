@@ -32,7 +32,7 @@ class ConvObject {
         document.getElementById("conv_name").innerText = currentConv.conv_name;
         document.getElementById("msg_list").innerHTML = ""; // on vide la liste de message avant de la remplir a nouveau
         for (let i = 0; i < currentConv.conv_data.length; i++) {
-           this.newMsg(currentConv[i]);
+           this.newMsg(currentConv.conv_data[i]);
         }
     }
     newMsg(msgObj) {
