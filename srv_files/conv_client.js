@@ -251,7 +251,7 @@ function verifUsers(users) {
 	// decode crypted usersID and verify content
 	let formatOk = true;
 
-	users.map(str=>{
+	users = users.map(str=>{
 		let decryptedID;
 		try {
 			decryptedID = crypt.decode(str);
