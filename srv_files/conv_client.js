@@ -236,7 +236,7 @@ function rename(newName, convIdStr, socket, dbo) {
 			socket.emit("log", "Permission denied.");
 			return ;
 		}
-		dbo.collection("conversations").updateOne({_id:  userId}, {
+		dbo.collection("conversations").updateOne({_id: convId}, {
 			$set: {
 				conv_name: newName
 			}
