@@ -59,7 +59,9 @@ body {
 }
 
 #conv_name {
-	display: flex;
+	margin: auto;
+	text-align: center;
+	max-width: 80%;
 }
 
 .conv_name_list {
