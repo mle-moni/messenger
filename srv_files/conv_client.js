@@ -4,6 +4,7 @@ const crypt = require("../../global/crypt");
 module.exports = {
 	create,
 	searchUsers,
+	getUser,
 	quit,
 	get,
 	addUsers,
@@ -169,6 +170,38 @@ function searchUsers(name, socket, dbo) {
 		}
 		socket.emit("getUsers", res);
 	});
+}
+
+function getUser(cryptedUserId, socket, dbo) {
+	if (cryptedUserId == "") {
+		socket.emit("log", "Bad userID");
+			return ;
+	}
+	let decryptedID;
+
+	try {
+		decryptedID = crypt.decode(cryptedUserId);
+	} catch (e) {
+		socket.emit("log", "Bad userID");
+		return ;
+	}
+	if (!isMongoID(decryptedID)) {
+		socket.emit("log", "Bad userID");
+		return ;
+	}
+	const query = {	_id: new ObjectId(decryptedID)};
+	const options = {
+		"projection": {_id: 1, psd: 1}
+	};
+	dbo.collection("account").findOne( query, options)
+	.then(res=>{
+		if (res) {
+			res._id = crypt.encode(res._id.toString());
+			res.psd = crypt.decode(res.psd);
+			socket.emit("setUser", res);
+		}
+	})
+	.catch( (err) => console.error(`Error while searching user by ID : ${err}`));
 }
 
 function deleteConv(convId, dbo) {

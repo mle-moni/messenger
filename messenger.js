@@ -70,6 +70,18 @@ MongoClient.connect(url, {
 			}
 		});
 
+		socket.on("getUserById", (userId) => {
+			if (socket.hasOwnProperty("psd")) {
+				if (typeof(userId) === "string") {
+					conv.getUser(userId, socket, dbo);
+				} else {
+					socket.emit("log", "L'ID doit etre une chaine de charactere.");
+				}
+			} else {
+				socket.emit("logAndComeBack");
+			}
+		});
+
 		socket.on("createConv", (users, convName)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && typeof(convName) === "string") {
