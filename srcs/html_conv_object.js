@@ -10,6 +10,7 @@ class ConvObject {
         this.conversations[conv._id] = conv;
         p.classList.add("clickable", "conv_name_list");
         p.onclick = e=>{
+            console.log(e.target)
             this.hideConvList();
         }
         p.innerText = conv.conv_name;
