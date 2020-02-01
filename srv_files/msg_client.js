@@ -30,15 +30,24 @@ function newMsg(msg, convIdStr, socket, dbo, io) {
         user_msg: crypt.aesEncode(msgObj.user_msg)
     };
 
-    dbo.collection("conversations").updateOne({_id: convId}, {
-        $push: {
-            conv_data: msgToStore
+    dbo.collection("conversations").findOne({ $and: [
+        {conv_users: { $all: [ socket.userId ]}},
+        {_id: convId}
+    ]}, function(err, res) {
+        if (!res) {
+            socket.emit("log", "Cant find conversation..");
+            return ;
         }
-    }, function(err, res) {
-        if (res.matchedCount == 1) {
-            // on a push le nouveau message
-            io.to(convIdStr).emit("newMsg", msgObj, convIdStr);
-        }
+        dbo.collection("conversations").updateOne({_id: convId}, {
+            $push: {
+                conv_data: msgToStore
+            }
+        }, function(err, res) {
+            if (res.matchedCount == 1) {
+                // on a push le nouveau message
+                io.to(convIdStr).emit("newMsg", msgObj, convIdStr);
+            }
+        });
     });
 }
 
