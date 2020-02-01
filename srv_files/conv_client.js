@@ -156,7 +156,7 @@ function searchUsers(name, socket, dbo) {
 	.toArray((err, res) => {
 		if (err) throw err;
 		res = res.map(o => {
-			o._id = crypt.encode(o._id);
+			o._id = crypt.encode(o._id.toString());
 			o.psd = crypt.decode(o.psd);
 			return o;
 		});
