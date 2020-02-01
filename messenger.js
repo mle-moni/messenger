@@ -7,6 +7,7 @@ const handler = require("./srv_files/handler").handle;
 const connection = require("../global/connection");
 const conv = require("./srv_files/conv_client");
 const msg_client = require("./srv_files/msg_client");
+const crypt = require("../global/crypt");
 
 const Analyse = {
     connnected: 0,
@@ -71,13 +72,10 @@ MongoClient.connect(url, {
 		socket.on("createConv", (users, convName)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && typeof(convName) === "string") {
-					let formatOk = true;
-					users.map(str=>{
-						if (typeof(str) !== "string" || str.length !== 24)
-							formatOk = false;
-						return (str);
-					});
-					if (formatOk)
+					let obj = conv.verifUsers(users);
+
+					users = obj.users;
+					if (users.ok)
 						conv.create({users, convName}, socket, dbo, io);
 					else
 						socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
@@ -114,13 +112,10 @@ MongoClient.connect(url, {
 		socket.on("addToConv", (users, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
 				if (users.push !== undefined && conv.isMongoID(convId)) {
-					let formatOk = true;
-					users.map(str=>{
-						if (typeof(str) !== "string" || str.length !== 24)
-							formatOk = false;
-						return (str);
-					});
-					if (formatOk)
+					let obj = conv.verifUsers(users);
+
+					users = obj.users;
+					if (users.ok)
 						conv.addUsers(users, convId, socket, dbo, io);
 				} else {
 					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
@@ -132,6 +127,12 @@ MongoClient.connect(url, {
 
 		socket.on("rmFromConv", (userId, convId)=>{
 			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				try {
+					userId = crypt.decode(userId);
+				} catch (e) {
+					socket.emit("log", "Erreur lors du parsing..");
+					return ;
+				}
 				if (conv.isMongoID(userId) && conv.isMongoID(convId)) {
 					conv.rmUser(userId, convId, socket, dbo, io);
 				} else {

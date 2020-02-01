@@ -9,7 +9,8 @@ module.exports = {
 	addUsers,
 	rmUser,
 	rename,
-	isMongoID
+	isMongoID,
+	verifUsers
 };
 
 function isMongoID(str) {
@@ -123,8 +124,8 @@ function addUsers(users, convIdStr, socket, dbo, io) {
 function create(obj, socket, dbo, io) {
 	obj.users.unshift(socket.userId.toString());
 	deleteErrors(obj.users);
-	if (obj.users.length === 0) {
-		socket.emit("log", `La conversation : ${obj.convName} n'a pas été créée.`);
+	if (obj.convName.length > 50 || obj.convName === 0) {
+		socket.emit("log", `Le nom de la conversation est trop long ou null.`);
 		return ;
 	}
 	const convObj = {
@@ -155,6 +156,7 @@ function searchUsers(name, socket, dbo) {
 	.toArray((err, res) => {
 		if (err) throw err;
 		res = res.map(o => {
+			o._id = crypt.encode(o._id);
 			o.psd = crypt.decode(o.psd);
 			return o;
 		});
@@ -243,4 +245,22 @@ function rename(newName, convIdStr, socket, dbo) {
 			socket.emit("log", succesMsg);
 		});
 	});
+}
+
+function verifUsers(users) {
+	// decode crypted usersID and verify content
+	let formatOk = true;
+
+	users.map(str=>{
+		let decryptedID;
+		try {
+			decryptedID = crypt.decode(str);
+		} catch (e) {
+			return ({users: [], ok: false});
+		}
+		if (!isMongoID(decryptedID))
+			formatOk = false;
+		return (decryptedID);
+	});
+	return ({users, ok: formatOk});
 }
