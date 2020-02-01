@@ -199,6 +199,8 @@ function getUser(cryptedUserId, socket, dbo) {
 			res._id = crypt.encode(res._id.toString());
 			res.psd = crypt.decode(res.psd);
 			socket.emit("setUser", res);
+		} else {
+			socket.emit("log", "Can't find user..");
 		}
 	})
 	.catch( (err) => console.error(`Error while searching user by ID : ${err}`));

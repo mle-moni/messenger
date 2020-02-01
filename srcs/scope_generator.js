@@ -9,7 +9,7 @@
 	}
 	let appReady = false;
 	const innerSocket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});
-	const conversations = new ConvObject();
+	const conversations = new ConvObject(innerSocket);
 
 	if (localStorage.getItem('psd')) {
 		sessionStorage.setItem('psd', localStorage.getItem('psd'))
@@ -44,6 +44,10 @@
 		console.log(res);
 	});
 
+	innerSocket.on("setUser", res=>{
+		conversations.updateUsersTable(res);
+	});
+
 	innerSocket.on("getConvs", res=>{
 		console.log(res);
 	});
@@ -51,7 +55,7 @@
 	innerSocket.on("conversation", convObj=>{
 		console.log(convObj);
 		conversations.newConv(convObj);
-		
+
 	});
 
 	innerSocket.on("newMsg", (msgObj, convId) => {
@@ -84,6 +88,7 @@
 
 	innerSocket.on("disconnect", ()=>{
 		appReady = false;
+		document.getElementById("conv_list").innerHTML = "";
 		console.log("Disconnected, app is not longer usable");
 	});
 	
