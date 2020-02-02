@@ -23,7 +23,7 @@ body {
 }
 
 .body_show_create {
-	grid-template-areas: "conv";
+	grid-template-areas: "create_conv";
 }
 
 #chose_conv {
@@ -84,7 +84,7 @@ body {
 
 #create_conv {
 	display: none;
-	grid-area: chose_conv;
+	grid-area: create_conv;
 }
 
 /* @media only screen and (min-width: 700px) {
