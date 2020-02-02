@@ -11,7 +11,7 @@ class ConvObject {
         });
         document.getElementById("add_conv_button").onclick = e=>{
             console.log("coucou")
-            document.body.classList.replace("body_show_conv", "body_show_list");
+            document.body.classList.replace("body_show_list", "body_show_create");
             document.getElementById("create_conv").style.display = "block";
             document.getElementById("chose_conv").style.display = "none";
         };

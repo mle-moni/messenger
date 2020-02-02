@@ -8,21 +8,21 @@ body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
-}
-
-.body_show_list {
 	display: grid;
 	grid-gap: 20px;
 	grid-template-rows: 100%;
 	grid-template-columns: 100%;
+}
+
+.body_show_list {
 	grid-template-areas: "chose_conv";
 }
 
 .body_show_conv {
-	display: grid;
-	grid-gap: 20px;
-	grid-template-rows: 100%;
-	grid-template-columns: 100%;
+	grid-template-areas: "conv";
+}
+
+.body_show_create {
 	grid-template-areas: "conv";
 }
 
@@ -84,6 +84,7 @@ body {
 
 #create_conv {
 	display: none;
+	grid-area: chose_conv;
 }
 
 /* @media only screen and (min-width: 700px) {
