@@ -67,6 +67,7 @@ class ConvObject {
         p.innerText = `${this.getFormatedDate(new Date(msgObj.time))} - ${userName} : ${msgObj.user_msg}`;
         // p.classList.add()
         msgList.appendChild(p);
+        msgList.scroll(0, 10000000);
     }
     getFormatedDate(date) {
         let hours = "" + date.getHours();
