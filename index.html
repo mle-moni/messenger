@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width"/>
     <title>Messagerie</title>
     <link rel="stylesheet" type="text/css" href="style/main.css">
-    <script>console.warn("V-0.2 ALPHA")</script>
+    <script>console.warn("V-0.3 ALPHA")</script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         function showConvList() {
-            document.body.classList.replace("body_show_conv", "body_show_list");
+            document.body.classList.remove("body_show_conv", "body_show_create");
+            document.body.classList.add("body_show_list");
             document.getElementById("chose_conv").style.display = "block";
             document.getElementById("conversation").style.display = "none";
+            document.getElementById("create_conv").style.display = "none";
         }
     </script>
 </head>
 <body class="body_show_list">
     <nav id="chose_conv">
         <div id="chose_conv_container">
-            <h2 id="conv_list_title" >Vos Conversations</h2>
-            <p id="add_conv_button" class="clickable conv_name_list" >+</p>
-            <div id="conv_list">
+            <h1 id="conv_list_title" style="text-align: center;" >Vos Conversations</h1>
+            <p id="add_conv_button" class="clickable conv_name_list rounded" style="margin: auto; width: 30px; height: 30px; display: flex;"><span style="margin: auto;">+</span></p>
+            <div id="conv_list" style="width: 60vw; margin: auto;">
             </div>
         </div>
     </nav>
@@ -37,13 +39,29 @@
             </div>
             <div id="msg_list">                
             </div>
-            <div id="input_container">
+            <div class="input_container">
                 <input id="input" type="text" style="font-size: 20px;">
             </div>
         </div>
     </article>
     <div id="create_conv">
-        salut
+        <h4 class="clickable" onclick="showConvList()" style="text-align: start; padding-left: 50px;">Retour</h4>
+        <h1 id="create_title" class="text_centered" style="font-size: x-large;">Creer une nouvelle conversation :</h1>
+        <div style="display: flex; flex-direction: column;">
+            <div class="input_container" style="width: 60%; margin: auto; border: none;">
+                <input id="input_get_users" type="text" style="font-size: 20px; width: 100%; border: 0.1px solid;" placeholder=" Search user">
+            </div>
+            <br><br>
+            <div id="contact_list" style="margin: auto; width: 60%; max-height: 30vh; overflow: auto; border: 0.1px solid;"></div><br>
+            <br>
+            <div style="display: flex; flex-direction: column; width: 60%; margin: auto; border: none;">
+                <textarea id="chosen_users" readonly></textarea>
+                <br>
+                <input id="input_get_new_conv_name" type="text" style="font-size: 20px; width: 100%; border: 0.1px solid;" placeholder=" Conversation name">
+                <br>
+                <div id="create_conv_submit" class="clickable" style="font-size: 20px; width: 100%; border: 0.1px solid; background-color: rgb(250, 250, 250);">Creer</div>
+            </div>
+        </div>
     </div>
     <script src="srcs/html_conv_object.js"></script>
     <script src="srcs/scope_generator.js"></script>

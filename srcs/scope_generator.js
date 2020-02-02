@@ -42,6 +42,7 @@
 
 	innerSocket.on("getUsers", res=>{
 		console.log(res);
+		conversations.getUsers(res);
 	});
 
 	innerSocket.on("setUser", res=>{

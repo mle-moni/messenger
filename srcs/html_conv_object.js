@@ -4,17 +4,24 @@ class ConvObject {
         this.conversations = [];
         this.usersTable = [];
         this.current = "";
+        this.newConvUsers = [];
         document.getElementById("input").addEventListener("keydown", e=>{
             if (e.keyCode === 13) {
                 this.sendMsg(document.getElementById("input").value);
             }
         });
         document.getElementById("add_conv_button").onclick = e=>{
-            console.log("coucou")
             document.body.classList.replace("body_show_list", "body_show_create");
             document.getElementById("create_conv").style.display = "block";
             document.getElementById("chose_conv").style.display = "none";
         };
+        document.getElementById("input_get_users").addEventListener("keyup", e=>{
+            this.socket.emit("getUsers", document.getElementById("input_get_users").value);
+        });
+        let self = this;
+        document.getElementById("create_conv_submit").addEventListener("click", e=>{
+            self.createConv();
+        });
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -56,11 +63,18 @@ class ConvObject {
     newMsg(msgObj) {
         const msgList = document.getElementById("msg_list");
         const p = document.createElement("p");
-        const time = new Date(msgObj.time);
         const userName = this.usersTable[msgObj.user_id] || "Unknown user";
-        p.innerText = `${time.getHours()}h${time.getMinutes()} - ${userName} : ${msgObj.user_msg}`;
+        p.innerText = `${this.getFormatedDate(new Date(msgObj.time))} - ${userName} : ${msgObj.user_msg}`;
         // p.classList.add()
         msgList.appendChild(p);
+    }
+    getFormatedDate(date) {
+        let hours = "" + date.getHours();
+        let minutes = "" + date.getMinutes();
+
+        if (hours.length != 2) hours = "0" + hours;
+        if (minutes.length != 2) minutes = "0" + minutes;
+        return (`${hours}h${minutes}`);
     }
     appendMsg(msgObj, convID) {
         this.conversations[convID].conv_data.push(msgObj);
@@ -74,5 +88,40 @@ class ConvObject {
     sendMsg(txt) {
         this.socket.emit("newMsg", {txt}, this.current);
         document.getElementById("input").value = "";
+    }
+    getUsers(usersArr) {
+        const userList = document.getElementById("contact_list");
+
+        userList.innerHTML = "";
+        for (let i = 0; i < usersArr.length; i++) {
+            let p = document.createElement("p");
+    
+            p.classList.add("clickable", "conv_name_list");
+            p.innerText = usersArr[i].psd;
+            p.userId = usersArr[i]._id;
+            p.onclick = e=>{
+                let hasAlready = false;
+                for (let j = 0; j < this.newConvUsers.length; j++) {
+                    if (this.newConvUsers[j].psd === usersArr[i].psd) {
+                        hasAlready = true;
+                        this.newConvUsers.splice(j, 1);
+                        j--;
+                    }
+                }
+                if (!hasAlready) {
+                    this.newConvUsers.push(usersArr[i]);
+                }
+                document.getElementById("chosen_users").innerText = this.newConvUsers.map(o=>o.psd).join(", ");
+            }
+            userList.appendChild(p);
+        }
+    }
+    createConv() {
+        const convName = document.getElementById("input_get_new_conv_name").value;
+        if (convName != "") {
+            console.log(this)
+            this.socket.emit("createConv", this.newConvUsers.map(o=>o._id), convName);
+            showConvList();
+        }
     }
 }

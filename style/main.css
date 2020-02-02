@@ -33,6 +33,8 @@ body {
 #chose_conv_container {
 	padding: 20px;
 	margin: 1px;
+	display: flex;
+	flex-direction: column;
 }
 
 #conversation {
@@ -49,7 +51,7 @@ body {
 	text-align: center;
 }
 
-#conv_list_title {
+.text_centered {
 	text-align: center;
 }
 
@@ -76,15 +78,22 @@ body {
 	overflow-y: auto;
 }
 
-#input_container {
+.input_container {
 	display: grid;
 	/* grid-template-columns: 90% auto; */
-	border: solid;
+	border: 0.1px solid;
 }
 
 #create_conv {
 	display: none;
 	grid-area: create_conv;
+}
+
+.rounded {
+	border: 1px solid;
+	-webkit-border-radius: 300px;
+	-moz-border-radius: 300px;
+	border-radius: 300px;
 }
 
 /* @media only screen and (min-width: 700px) {
