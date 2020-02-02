@@ -49,6 +49,7 @@ class ConvObject {
         document.body.classList.replace("body_show_list", "body_show_conv");
         choseConv.style.display = "none";
         document.getElementById("conversation").style.display = "grid";
+        document.getElementById("msg_list").scroll(0, 10000000);
     }
     loadConv(convID) {
         const currentConv = this.conversations[convID];
