@@ -82,6 +82,10 @@ body {
 	border: solid;
 }
 
+#create_conv {
+	display: none;
+}
+
 /* @media only screen and (min-width: 700px) {
 	#conversation {
 		display: none;

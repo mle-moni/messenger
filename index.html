@@ -10,10 +10,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         function showConvList() {
-            const choseConv = document.getElementById("chose_conv");
-
             document.body.classList.replace("body_show_conv", "body_show_list");
-            choseConv.style.display = "block";
+            document.getElementById("chose_conv").style.display = "block";
             document.getElementById("conversation").style.display = "none";
         }
     </script>
@@ -22,7 +20,7 @@
     <nav id="chose_conv">
         <div id="chose_conv_container">
             <h2 id="conv_list_title" >Vos Conversations</h2>
-            <p class="clickable conv_name_list" >+</p>
+            <p id="add_conv_button" class="clickable conv_name_list" >+</p>
             <div id="conv_list">
             </div>
         </div>
@@ -44,6 +42,9 @@
             </div>
         </div>
     </article>
+    <div id="create_conv">
+        salut
+    </div>
     <script src="srcs/html_conv_object.js"></script>
     <script src="srcs/scope_generator.js"></script>
 </body>

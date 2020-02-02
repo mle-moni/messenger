@@ -9,6 +9,12 @@ class ConvObject {
                 this.sendMsg(document.getElementById("input").value);
             }
         });
+        document.getElementById("add_conv_button").onclick = e=>{
+            console.log("coucou")
+            document.body.classList.replace("body_show_conv", "body_show_list");
+            document.getElementById("create_conv").style.display = "block";
+            document.getElementById("chose_conv").style.display = "none";
+        };
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -24,13 +30,13 @@ class ConvObject {
         p.onclick = e=>{
             // console.log(e.target)
             this.loadConv(e.target.convID);
-            this.hideConvList();
+            this.showConv();
         }
         p.innerText = conv.conv_name;
         p.convID = conv._id;
         convList.appendChild(p);
     }
-    hideConvList() {
+    showConv() {
         const choseConv = document.getElementById("chose_conv");
 
         document.body.classList.replace("body_show_list", "body_show_conv");
