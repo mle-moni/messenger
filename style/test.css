@@ -13,10 +13,6 @@ body {
   main .helper {
     background: #656157;
     color: #ffffff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
     padding: 1.2em 2em;
     text-align: center;
     border-radius: 20px;
