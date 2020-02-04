@@ -72,18 +72,20 @@
             padding: 10px;
             display: flex;
             flex-direction: column;
+            max-height: calc(97vh - 225px);
+            overflow: auto;
         }
     </style>
 </head>
 
 <body class="body_show_list">
     <div class="smartphone-menu-trigger" onclick="toggleMenuVisibility()"></div>
-    <nav id="chose_conv" class="menu menu-visible nice-scroll-bar" tabindex="0">
+    <nav id="chose_conv" class="menu menu-visible" tabindex="0">
         <header class="avatar">
             <img src="img/unknown_user.png" />
-            <h2>Redz le bricoleur</h2>
+            <h2>Redz</h2>
         </header>
-        <div id="chose_conv_container">
+        <div id="chose_conv_container" class="nice-scroll-bar">
             <div style="display: flex;">
                 <p id="add_conv_button" class="clickable conv_name_list rounded"
                     style="margin: auto; display: flex;  width: 20px; height: 20px;"><span
@@ -99,7 +101,7 @@
                     testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
                 <p class="clickable conv_name_list">Conversation avec l'utilisateur
                     testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksds;lfkds;lkfsd;kfdlkjdsf</p>
-                <!-- <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
                     testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
                 <p class="clickable conv_name_list">Conversation avec l'utilisateur
                     testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
@@ -108,7 +110,7 @@
                 <p class="clickable conv_name_list">Conversation avec l'utilisateur
                     testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
                 <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p> -->
+                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
             </div>
         </div>
     </nav>

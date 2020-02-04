@@ -31,11 +31,13 @@ main {
   overflow: auto;
 }
 
-.menu .avatar {
+.avatar {
   background: #656157;
   padding: 2em 0.5em;
   text-align: center;
-  /* max-height: 225px; */
+  max-height: 225px;
+  word-break: normal;
+  overflow: hidden;
 }
 
 .menu .avatar img {
@@ -49,6 +51,9 @@ main {
 .menu .avatar h2 {
   font-weight: normal;
   margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 main .helper {
