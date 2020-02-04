@@ -3,44 +3,80 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
     <title>Messagerie</title>
     <script>console.warn("V-0.3 ALPHA")</script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="style/test.css">
     <script>
-    let menuIsVisible = true;
-    function toggleMenuVisibility() {
-        if (menuIsVisible) {
-            document.getElementById("chose_conv").classList.remove("menu-visible");
-            menuIsVisible = false;
-        } else {
-            document.getElementById("chose_conv").classList.add("menu-visible");
-            menuIsVisible = true;
+        let menuIsVisible = true;
+        function toggleMenuVisibility() {
+            if (menuIsVisible) {
+                document.getElementById("chose_conv").classList.remove("menu-visible");
+                menuIsVisible = false;
+            } else {
+                document.getElementById("chose_conv").classList.add("menu-visible");
+                menuIsVisible = true;
+            }
         }
-    }
     </script>
+    <style>
+        .clickable {
+            cursor: pointer;
+            ;
+        }
+        .conv_name_list {
+            /* text-align: center; */
+            padding: 10px;
+            background-color: rgba(242, 206, 165, 0.63);
+            color: #272521;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+        }
+        .rounded {
+            -webkit-border-radius: 300px;
+            -moz-border-radius: 300px;
+            border-radius: 300px;
+        }
+        #chose_conv_container {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
+
 <body class="body_show_list">
     <nav id="chose_conv" class="menu menu-visible" tabindex="0">
         <div class="smartphone-menu-trigger" onclick="toggleMenuVisibility()"></div>
-      <header class="avatar">
+        <header class="avatar">
             <img src="img/unknown_user.png" />
-        <h2>Redz</h2>
-      </header>
-        <ul>
-        <li tabindex="0" class="icon-dashboard"><span>Dashboard</span></li>
-        <li tabindex="0" class="icon-customers"><span>Customers</span></li>
-        <li tabindex="0" class="icon-users"><span>Users</span></li>
-        <li tabindex="0" class="icon-settings"><span>Settings</span></li>
-      </ul>
+            <h2>Redz</h2>
+        </header>
+        <div id="chose_conv_container">
+            <div style="display: flex;">
+                <p id="add_conv_button" class="clickable conv_name_list rounded"
+                style="margin: auto; display: flex;  width: 20px; height: 20px;"><span style="margin: auto;">+</span></p>
+            </div>
+            <div id="conv_list" style="margin: auto;">
+                <p class="clickable conv_name_list">Conv solo</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur test</p>
+                <p class="clickable conv_name_list">Conversation serieuse sur les rats</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksds;lfkds;lkfsd;kfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+            </div>
+        </div>
     </nav>
-    
+
     <main>
-      <div class="helper">
-        RESIZE THE WINDOW
-            <span>Breakpoints on 900px and 400px</span>
-      </div>
+        <div class="helper">
+            Conversation name
+            <span>User1, User2, User3</span>
+        </div>
     </main>
 </body>
 
