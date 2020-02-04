@@ -13,18 +13,41 @@
         function toggleMenuVisibility() {
             if (menuIsVisible) {
                 document.getElementById("chose_conv").classList.remove("menu-visible");
+                document.getElementsByClassName("smartphone-menu-trigger")[0].classList.add("trigger-left");
                 menuIsVisible = false;
             } else {
                 document.getElementById("chose_conv").classList.add("menu-visible");
+                document.getElementsByClassName("smartphone-menu-trigger")[0].classList.remove("trigger-left");
                 menuIsVisible = true;
             }
         }
     </script>
     <style>
+        .nice-scroll-bar::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            background-color: #706c61;
+        }
+
+        .nice-scroll-bar::-webkit-scrollbar {
+            width: 12px;
+            background-color: #656157;
+        }
+
+        .nice-scroll-bar::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #555;
+        }
+    </style>
+    <style>
         .clickable {
             cursor: pointer;
             ;
         }
+
         .conv_name_list {
             /* text-align: center; */
             padding: 10px;
@@ -34,11 +57,17 @@
             -moz-border-radius: 10px;
             border-radius: 10px;
         }
+
+        .conv_name_list:hover {
+            background-color: rgba(242, 206, 165, 0.33);
+        }
+
         .rounded {
             -webkit-border-radius: 300px;
             -moz-border-radius: 300px;
             border-radius: 300px;
         }
+
         #chose_conv_container {
             padding: 10px;
             display: flex;
@@ -48,26 +77,38 @@
 </head>
 
 <body class="body_show_list">
-    <nav id="chose_conv" class="menu menu-visible" tabindex="0">
-        <div class="smartphone-menu-trigger" onclick="toggleMenuVisibility()"></div>
+    <div class="smartphone-menu-trigger" onclick="toggleMenuVisibility()"></div>
+    <nav id="chose_conv" class="menu menu-visible nice-scroll-bar" tabindex="0">
         <header class="avatar">
             <img src="img/unknown_user.png" />
-            <h2>Redz</h2>
+            <h2>Redz le bricoleur</h2>
         </header>
         <div id="chose_conv_container">
             <div style="display: flex;">
                 <p id="add_conv_button" class="clickable conv_name_list rounded"
-                style="margin: auto; display: flex;  width: 20px; height: 20px;"><span style="margin: auto;">+</span></p>
+                    style="margin: auto; display: flex;  width: 20px; height: 20px;"><span
+                        style="margin: auto;">+</span></p>
             </div>
             <div id="conv_list" style="margin: auto;">
                 <p class="clickable conv_name_list">Conv solo</p>
                 <p class="clickable conv_name_list">Conversation avec l'utilisateur test</p>
                 <p class="clickable conv_name_list">Conversation serieuse sur les rats</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksds;lfkds;lkfsd;kfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksds;lfkds;lkfsd;kfdlkjdsf</p>
+                <!-- <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+                <p class="clickable conv_name_list">Conversation avec l'utilisateur
+                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p> -->
             </div>
         </div>
     </nav>
