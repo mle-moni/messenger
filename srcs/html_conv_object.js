@@ -43,7 +43,6 @@ class ConvObject {
             p.classList.add("clickable", "conv_name_list");
             // charge la conversation quand on clique sur le conv_name
             p.onclick = e=>{
-                // console.log(e.target)
                 this.loadConv(e.target.convID);
                 this.showConv();
             }
@@ -61,10 +60,15 @@ class ConvObject {
     }
     loadConv(convID) {
         const currentConv = this.conversations[convID];
+        const span = document.createElement("span");
+        const usersList = this.conversations[convID].conv_users.map(id=>{
+            return (this.usersTable[id] || "Unknown user");
+        });
         
         this.current = convID;
         document.getElementById("conv_name").getElementsByTagName("h1")[0].innerText = currentConv.conv_name;
-        console.log("ajouter la liste d'utilisateurs")
+        span.textContent = usersList.join(", ");
+        document.getElementById("conv_name").getElementsByTagName("h1")[0].appendChild(span);
         document.getElementById("msg_list").innerHTML = ""; // on vide la liste de message avant de la remplir a nouveau
         for (let i = 0; i < currentConv.conv_data.length; i++) {
            this.newMsg(currentConv.conv_data[i]);
@@ -111,8 +115,10 @@ class ConvObject {
         this.usersTable[userObj._id] = userObj.psd;
     }
     sendMsg(txt) {
-        this.socket.emit("newMsg", {txt}, this.current);
-        document.getElementById("input").value = "";
+        if (this.current !== "" && document.getElementById("input").value !== "") {
+            this.socket.emit("newMsg", {txt}, this.current);
+            document.getElementById("input").value = "";
+        }
     }
     getUsers(usersArr) {
         const userList = document.getElementById("contact_list");
@@ -144,7 +150,6 @@ class ConvObject {
     createConv() {
         const convName = document.getElementById("input_get_new_conv_name").value;
         if (convName != "") {
-            console.log(this)
             this.socket.emit("createConv", this.newConvUsers.map(o=>o._id), convName);
             showConvList();
         }
