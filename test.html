@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Messagerie</title>
     <script>
-        console.warn("V-0.3 ALPHA")
+        console.warn("V-0.4 ALPHA")
     </script>
     <script src="/socket.io/socket.io.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap" rel="stylesheet">
@@ -29,6 +29,10 @@
         }
     </script>
     <style>
+        .nice-scroll-bar {
+            scrollbar-color: rgb(138, 117, 94) #656157;
+            scrollbar-width: auto;
+        }
         .nice-scroll-bar::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
             box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -184,7 +188,7 @@
             .input_container {
                 padding-left: 5px;
                 padding-right: 5px;
-                width: 100vw;
+                width: 95vw;
                 position: fixed;
                 bottom: 0px;
                 left: 0px;
@@ -211,35 +215,7 @@
                         style="margin: auto;">+</span></p>
             </div>
             <div id="conv_list" style="margin: auto;">
-                <p class="clickable conv_name_list">Conv solo</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur test</p>
-                <p class="clickable conv_name_list">Conversation serieuse sur les rats</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksds;lfkds;lkfsd;kfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
-                <p class="clickable conv_name_list">Conversation avec l'utilisateur
-                    testdslkfjdslkjfdslkfsdjlsdfLELLELELELELjlfsdkjfsdlkjsdflkfsdjlfdskjflsdjksfdlkjdsf</p>
+
             </div>
         </div>
     </nav>
@@ -308,6 +284,8 @@
                 autocomplete="off">
         </div>
     </main>
+    <script src="srcs/html_conv_object.js"></script>
+    <script src="srcs/scope_generator.js"></script>
 </body>
 
 </html>
