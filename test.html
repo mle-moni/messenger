@@ -52,9 +52,12 @@
         * {
             font-family: 'Montserrat', sans-serif;
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             font-family: 'Inconsolata', monospace;
         }
+
         .clickable {
             cursor: pointer;
             ;
@@ -127,19 +130,33 @@
             padding: 10px;
         }
 
-        #msg_list p {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        #msg_list p span {
+        #msg_list article span {
             display: inline-block;
             padding: 10px;
             background-color: rgb(138, 117, 94);
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
+            -webkit-border-radius: 10px 10px 10px 0px / 10px;
+            -moz-border-radius: 10px 10px 10px 0px / 10px;
+            border-radius: 10px 10px 10px 0px / 10px;
             color: black;
+        }
+
+        #msg_list article span img {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            padding-right: 10px;
+        }
+
+        #msg_list article h5 {
+            opacity: 0%;
+            transition: all 0.3s ease-in-out;
+            transform: translateY(30px);
+        }
+
+        #msg_list article:hover h5 {
+            opacity: 100%;
+            transition: all 0.3s ease-in-out;
+            transform: translateY(10px);
         }
 
         .from-me {
@@ -148,6 +165,9 @@
 
         .from-me span {
             background-color: rgb(138, 103, 94) !important;
+            border-radius: 10px 10px 0px / 10px !important;
+            -webkit-border-radius: 10px 10px 0px / 10px !important;
+            -moz-border-radius: 10px 10px 0px / 10px !important;
         }
 
         .input_container {
@@ -159,6 +179,7 @@
             left: 300px;
             display: flex;
         }
+
         @media screen and (max-width: 700px) {
             .input_container {
                 padding-left: 5px;
@@ -234,56 +255,45 @@
                 </div>
             </div>
             <div id="msg_list" class="nice-scroll-bar">
-                <p><span> 16h39 - test : Bonjour </span></p>
-                <p class="from-me"><span> 16h39 - Redz : Salut </span></p>
-                <p><span> 16h39 - test : Comment tu vas ? :) </span></p>
-                <p><span> 16h40 - test : T'as vu comment l'interface graphique c'est ameliorée ? </span></p>
-                <p class="from-me"><span> 16h41 - Redz : Ouais c'est fou ! </span></p>
-                <p><span> 16h43 - test : Ça te dit on spam pour voir comment le chat reagit ? </span></p>
-                <p class="from-me"><span> 16h43 - Redz : Allez ! </span></p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p><span> 16h43 - test : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
-                </p>
-                <p class="from-me"><span> 16h43 - Redz : Je pense que c'est assez X) </span></p>
+                <article>
+                    <h5>16h08</h5>
+                    <span>
+                        <div style="display: flex;">
+                            <img src="img/unknown_user.png" />
+                            <div style="margin: auto;"><b class="msg-psd">test</b></div>
+                        </div>
+                        <p>
+                            Bonjour
+                        </p>
+                    </span>
+                </article>
+
+                <article class="from-me">
+                    <h5>16h08</h5>
+                    <span>
+                        <div style="display: flex;">
+                            <img src="img/unknown_user.png" />
+                            <div style="margin: auto;"><b class="msg-psd">Redz</b></div>
+                        </div>
+                        <p>
+                            Salut la compagnie moi c'est jacques le frero des ours bruns
+                        </p>
+                    </span>
+                </article>
+
+                <article>
+                    <h5>16h08</h5>
+                    <span>
+                        <div style="display: flex;">
+                            <img src="img/unknown_user.png" />
+                            <div style="margin: auto;"><b class="msg-psd">test</b></div>
+                        </div>
+                        <p>
+                            Bonjour, comment vas-tu ?
+                        </p>
+                    </span>
+                </article>
+
 
             </div>
             <div></div>
@@ -291,7 +301,8 @@
         <div class="input_container">
             <input id="input" type="text" style="font-size: 20px; margin: auto; width: 97%; padding:10px;
             font-size:20px; border-width:4px; border-bottom-color: #BCC4CA; border-right-color: #BCC4CA;
-            border-left-color: white;border-top-color: white; border-radius: 10px;" placeholder="Aa">
+            border-left-color: white;border-top-color: white; border-radius: 10px;" placeholder="Aa"
+                autocomplete="off">
         </div>
     </main>
 </body>
