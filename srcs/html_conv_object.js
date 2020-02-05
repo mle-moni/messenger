@@ -1,5 +1,6 @@
 class ConvObject {
     constructor(socket) {
+        this.psd = sessionStorage.psd;
         this.socket = socket;
         this.conversations = [];
         this.usersTable = [];
@@ -23,6 +24,9 @@ class ConvObject {
         // document.getElementById("create_conv_submit").addEventListener("click", e=>{
         //     self.createConv();
         // });
+
+        const avatar = document.getElementById("avatar");
+        avatar.getElementsByTagName("h2")[0].textContent = this.psd;
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -90,7 +94,7 @@ class ConvObject {
         msg.getElementsByTagName("h5")[0].textContent = this.getFormatedDate(new Date(msgObj.time));
         msg.getElementsByClassName("msg-psd")[0].textContent = userName;
         msg.getElementsByTagName("p")[0].textContent = msgObj.user_msg;
-        if (userName === sessionStorage.psd) {
+        if (userName === this.psd) {
             msg.classList.add("from-me");
         }
         msgList.appendChild(msg);
