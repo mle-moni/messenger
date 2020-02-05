@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Messagerie</title>
     <script>
         console.warn("V-0.3 ALPHA")
     </script>
     <script src="/socket.io/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/test.css">
     <script>
         let menuIsVisible = true;
@@ -48,6 +49,12 @@
         }
     </style>
     <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+        h1, h2 {
+            font-family: 'Inconsolata', monospace;
+        }
         .clickable {
             cursor: pointer;
             ;
