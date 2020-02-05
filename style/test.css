@@ -16,7 +16,6 @@ main {
   left: 300px;
   height: 100vh;
   width: calc(100vw - 300px);
-  /* transform: translateX(60px); */
 }
 
 .menu {
@@ -54,21 +53,6 @@ main {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-main .helper {
-  background: #706C61;
-  color: #ffffff;
-  padding: 1.2em 2em;
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-}
-
-main .helper span {
-  color: #e1f4f3;
-  font-size: 0.4em;
-  display: block;
 }
 
 @media screen and (min-width: 701px) {}
@@ -125,5 +109,6 @@ main .helper span {
     position: absolute;
     top: 0px;
     left: 0px;
+    display: none;
   }
 }
