@@ -124,7 +124,7 @@ class ConvObject {
         console.log("notif")
         if (Notification.permission === "granted") {
             if (document.visibilityState !== "visible") {
-                reg.showNotification(`${this.conversations[convID].conv_name} a envoyé un message :`, {
+                this.reg.showNotification(`${this.conversations[convID].conv_name}`, {
                     body: `${userName}: ${msgObj.user_msg}`,
                     icon: '/img/notif-icon.png',
                     vibrate: [200, 100, 200]
