@@ -115,6 +115,7 @@ class ConvObject {
             this.newMsg(msgObj);
         }
         const userName = this.usersTable[msgObj.user_id] || "Unknown user";
+        console.log("notif")
         if (Notification.permission === "granted") {
             if (document.visibilityState !== "visible") {
                 Push.create(`Message: ${this.conversations[convID].conv_name}`, {
