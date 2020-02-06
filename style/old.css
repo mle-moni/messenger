@@ -1,0 +1,107 @@
+html {
+	background-color: rgba(0,0,0,0.1);
+	height: 100%;
+    width: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	display: grid;
+	grid-gap: 20px;
+	grid-template-rows: 100%;
+	grid-template-columns: 100%;
+}
+
+.body_show_list {
+	grid-template-areas: "chose_conv";
+}
+
+.body_show_conv {
+	grid-template-areas: "conv";
+}
+
+.body_show_create {
+	grid-template-areas: "create_conv";
+}
+
+#chose_conv {
+	grid-area: chose_conv;
+}
+
+#chose_conv_container {
+	padding: 20px;
+	margin: 1px;
+	display: flex;
+	flex-direction: column;
+}
+
+#conversation {
+	height: 90%;
+	display: none;
+	grid-template-rows: 30% auto 50px;
+	padding: 20px;
+	grid-area: conv;
+	max-height: 95vh;
+}
+
+.clickable {
+	cursor: pointer;
+	text-align: center;
+}
+
+.text_centered {
+	text-align: center;
+}
+
+#conv_name_container {
+	display: grid;
+	grid-template-columns: 80px auto 80px;
+}
+
+#conv_name {
+	margin: auto;
+	text-align: center;
+	max-width: 80%;
+}
+
+.conv_name_list {
+	border: 0.1px solid;
+	text-align: center;
+	padding: 5px;
+	background-color: rgba(94, 74, 74, 0.185);
+}
+
+#msg_list {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.input_container {
+	display: grid;
+	/* grid-template-columns: 90% auto; */
+	border: 0.1px solid;
+}
+
+#create_conv {
+	display: none;
+	grid-area: create_conv;
+}
+
+.rounded {
+	border: 1px solid;
+	-webkit-border-radius: 300px;
+	-moz-border-radius: 300px;
+	border-radius: 300px;
+}
+
+/* @media only screen and (min-width: 700px) {
+	#conversation {
+		display: none;
+	}
+	body {
+		grid-template-columns: 33% auto;
+		grid-template-areas: "chose_conv" "conv";
+	}
+} */

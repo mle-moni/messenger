@@ -1,0 +1,27 @@
+.conv_name_list {
+    /* text-align: center; */
+    padding: 10px;
+    background-color: rgba(242, 206, 165, 0.63);
+    color: #272521;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.conv_name_list:hover {
+    background-color: rgba(242, 206, 165, 0.33);
+}
+
+.rounded {
+    -webkit-border-radius: 300px;
+    -moz-border-radius: 300px;
+    border-radius: 300px;
+}
+
+#chose_conv_container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(97vh - 225px);
+    overflow: auto;
+}
