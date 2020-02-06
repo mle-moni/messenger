@@ -1,5 +1,4 @@
 if (Notification.permission === "default") {
-	alert("Salut, si tu veux avoir les notifications des messages tant que l'onglet est ouvert, tu peux en acceptant la prochaine popup :)");
 	Notification.requestPermission();
 	
 }
