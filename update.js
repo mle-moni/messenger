@@ -4,9 +4,12 @@ self.addEventListener('notificationclick', function (event) {
   });
 
 self.addEventListener('fetch', function(event) {
-event.respondWith(
-	caches.match(event.request).catch(function() {
-		return fetch(event.request);
-	})
-);
+// event.respondWith(
+// 	caches.match(event.request).catch(function() {
+// 		return fetch(event.request);
+// 	})
+// );
+	event.respondWith(
+		fetch(event.request)
+	)
 });
