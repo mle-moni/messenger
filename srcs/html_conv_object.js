@@ -27,6 +27,12 @@ class ConvObject {
 
         const avatar = document.getElementById("avatar");
         avatar.getElementsByTagName("h2")[0].textContent = this.psd;
+
+        const self = this;
+        navigator.serviceWorker.ready.then(function(reg) {
+            self.reg = reg;
+            console.log("Service worker is ready.");
+        })
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -118,14 +124,10 @@ class ConvObject {
         console.log("notif")
         if (Notification.permission === "granted") {
             if (document.visibilityState !== "visible") {
-                Push.create(`Message: ${this.conversations[convID].conv_name}`, {
+                reg.showNotification(`${this.conversations[convID].conv_name} a envoyé un message :`, {
                     body: `${userName}: ${msgObj.user_msg}`,
                     icon: '/img/notif-icon.png',
-                    timeout: 3000,
-                    onClick: function () {
-                        window.focus();
-                        this.close();
-                    }
+                    vibrate: [200, 100, 200]
                 });
             }
         }

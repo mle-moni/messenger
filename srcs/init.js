@@ -1,7 +1,11 @@
-if (Notification.permission === "default") {
-	Notification.requestPermission();
-	
+if (Notification.permission !== "granted") {
+	Notification.requestPermission((status) => {
+		if (Notification.permission !== status) {
+			Notification.permission = status;
+		}
+	});
 }
+navigator.serviceWorker.register('worker.js');
 
 let menuIsVisible = true;
 
