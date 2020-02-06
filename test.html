@@ -1,33 +1,19 @@
 <!doctype html>
 <html lang="fr">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width" />
-    <title>Messagerie</title>
-    <script>
-        console.warn("V-0.5 ALPHA")
-    </script>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width" />
+        <title>Messagerie</title>
+        <script>
+            console.warn("V-0.6 ALPHA")
+            </script>
+    <link rel="icon" href="img/basic-icon.png">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="libs/push.min.js"></script>
+    <script src="srcs/init.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/test.css">
-    <script>
-        let menuIsVisible = true;
-
-        function toggleMenuVisibility() {
-            if (menuIsVisible) {
-                document.getElementsByTagName("main")[0].style.display = "block";
-                document.getElementById("chose_conv").classList.remove("menu-visible");
-                document.getElementsByClassName("smartphone-menu-trigger")[0].classList.add("trigger-left");
-                menuIsVisible = false;
-            } else {
-                document.getElementsByTagName("main")[0].style.display = "none";
-                document.getElementById("chose_conv").classList.add("menu-visible");
-                document.getElementsByClassName("smartphone-menu-trigger")[0].classList.remove("trigger-left");
-                menuIsVisible = true;
-            }
-        }
-    </script>
     <style>
         .nice-scroll-bar {
             scrollbar-color: rgb(138, 117, 94) #656157;

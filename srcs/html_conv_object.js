@@ -114,6 +114,20 @@ class ConvObject {
         if (convID === this.current) {
             this.newMsg(msgObj);
         }
+        const userName = this.usersTable[msgObj.user_id] || "Unknown user";
+        if (Notification.permission === "granted") {
+            if (document.visibilityState !== "visible") {
+                Push.create(`Message: ${this.conversations[convID].conv_name}`, {
+                    body: `${userName}: ${msgObj.user_msg}`,
+                    icon: '/img/notif-icon.png',
+                    timeout: 3000,
+                    onClick: function () {
+                        window.focus();
+                        this.close();
+                    }
+                });
+            }
+        }
     }
     updateUsersTable(userObj) {
         this.usersTable[userObj._id] = userObj.psd;
