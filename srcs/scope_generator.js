@@ -11,6 +11,11 @@
 	const innerSocket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});
 	const conversations = new ConvObject(innerSocket);
 
+	// try to keep alive the socket
+	setInterval(()=>{
+		innerSocket.emit("ping-to-keep-alive");
+	}, 2000);
+
 	if (localStorage.getItem('psd')) {
 		sessionStorage.setItem('psd', localStorage.getItem('psd'))
 	}
