@@ -15,7 +15,7 @@ self.addEventListener('notificationclick', function (event) {
 					return client.focus();
 			}
 			if (clients.openWindow) {
-				return clients.openWindow('https://messenger.renouv.art/test.html');
+				return clients.openWindow('https://messenger.renouv.art/');
 			}
 		})
 	);
