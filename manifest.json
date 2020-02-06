@@ -1,0 +1,15 @@
+{
+	"name": "renouv.art messenger",
+	"short_name": "Simple messenger",
+	"lang": "en-US",
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#333333",
+	"icons": [
+		{
+		"src": "img/basic-icon.png",
+		"sizes": "100x100",
+		"type": "image/png"
+		}
+	]
+}
