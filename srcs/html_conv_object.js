@@ -39,6 +39,10 @@ class ConvObject {
                         self.loadConv(...e.state.params);
                         if (mobile) {
                             toggleMenuVisibility(true);
+                        } else {
+                            if (createConvIsVisible) {
+                                toggleCreateConvVisibility(true);
+                            }
                         }
                     break;
                     case "toggle_menu":
