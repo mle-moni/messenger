@@ -28,7 +28,43 @@ class ConvObject {
         navigator.serviceWorker.ready.then(function(reg) {
             self.reg = reg;
             console.log("Service worker is ready.");
-        })
+        });
+
+        window.onpopstate = e=>{
+            console.log(history.state)
+            let mobile = innerWidth <= 700;
+            if (e.state) {
+                switch (e.state.action) {
+                    case "load_conv":
+                        self.loadConv(...e.state.params);
+                        if (mobile) {
+                            toggleMenuVisibility(true);
+                        }
+                    break;
+                    case "toggle_menu":
+                        toggleMenuVisibility(true);
+                    break;
+                    case "toggle_create":
+                        toggleCreateConvVisibility(true);
+                    break;
+                    case "root":
+                        if (createConvIsVisible) {
+                            toggleCreateConvVisibility(true);
+                        }
+                        if (!menuIsVisible) {
+                            toggleMenuVisibility(true);
+                        }
+                    break;
+                }
+            } else {
+                if (mobile && !menuIsVisible) {
+                    toggleMenuVisibility(true);
+                }
+                if (menuIsVisible && createConvIsVisible) {
+                    toggleCreateConvVisibility(true);
+                }
+            }
+        }
     }
     newConv(conv) {
         const convList = document.getElementById("conv_list");
@@ -51,6 +87,8 @@ class ConvObject {
             p.onclick = e=>{
                 this.loadConv(e.target.convID);
                 this.showConv();
+                const stateObj = {action: "load_conv", params: [e.target.convID]};
+                window.history.pushState(stateObj, "");
             }
             p.innerText = conv.conv_name;
             p.convID = conv._id;
@@ -60,7 +98,7 @@ class ConvObject {
     }
     showConv() {
         if (window.innerWidth <= 700) {
-            toggleMenuVisibility();
+            toggleMenuVisibility(true);
         }
         document.getElementById("msg_list").scroll(0, 10000000);
     }
@@ -70,7 +108,6 @@ class ConvObject {
         const usersList = this.conversations[convID].conv_users.map(id=>{
             return (this.usersTable[id] || "Unknown user");
         });
-        
         this.current = convID;
         document.getElementById("conv_name").getElementsByTagName("h1")[0].innerText = currentConv.conv_name;
         span.textContent = usersList.join(", ");
