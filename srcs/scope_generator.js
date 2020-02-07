@@ -10,12 +10,7 @@
 	let appReady = false;
 	const innerSocket = io.connect(location.origin, {secure: true, rejectUnauthorized: true});
 	const conversations = new ConvObject(innerSocket);
-
-	// try to keep alive the socket
-	setInterval(()=>{
-		innerSocket.emit("ping-to-keep-alive");
-	}, 2000);
-
+	
 	if (localStorage.getItem('psd')) {
 		sessionStorage.setItem('psd', localStorage.getItem('psd'))
 	}
@@ -27,6 +22,11 @@
 		passwd: sessionStorage.getItem('passwd')
 	};
 	automaticReconnection(connectObj, innerSocket);
+	
+	// try to keep alive the socket
+	setInterval(()=>{
+		automaticReconnection(connectObj, innerSocket);
+	}, 2000);
     
 	// sockets events
 	
@@ -113,10 +113,13 @@
 	});
 
 	innerSocket.on("disconnect", ()=>{
-		toast.alert("Connection lost");
 		appReady = false;
 		document.getElementById("conv_list").innerHTML = "";
-		console.log("Disconnected, app is not longer usable");
+		toast.alert("Connection lost");
+		console.error("Disconnected, app is not longer usable");
+		setTimeout(()=>{
+			automaticReconnection(connectObj, innerSocket);
+		}, 500);
 	});
 	
 	innerSocket.on("log", (txt)=>{
