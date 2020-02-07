@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Messagerie</title>
     <script>
-        console.warn("V-0.6 ALPHA")
+        console.warn("V-0.7 ALPHA")
     </script>
     <link rel="icon" href="img/basic-icon.png">
     <link rel="manifest" href="manifest.json">
@@ -23,16 +23,108 @@
     <link rel="icon" type="image/png" sizes="100x100" href="img/basic-icon.png">
     <link rel="apple-touch-icon" type="image/png" sizes="100x100" href="img/basic-icon.png">
     <script src="/socket.io/socket.io.js"></script>
-    <script src="srcs/init.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/main.css">
     <link rel="stylesheet" type="text/css" href="style/scroll-bar.css">
     <link rel="stylesheet" type="text/css" href="style/conversations.css">
     <link rel="stylesheet" type="text/css" href="style/conv-list.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/siiimple-toast/dist/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/siiimple-toast/dist/siiimple-toast.min.js"></script>
+    <script src="srcs/init.js"></script>
+
+
+    <style>
+        #create_conv {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 100vh;
+            width: 100vw;
+            background-color: #333333;
+            z-index: 8;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+        }
+
+        .create_conv_invisible {
+            transform: translateX(-100vw);
+        }
+
+        #create_conv_container {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        #inner-box {
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            display: flex;
+            flex-direction: column;
+            background-color: #706c61;
+            padding: 20px;
+        }
+
+        #create_conv_container input {
+            max-width: 300px;
+            font-size: 20px;
+            margin: auto;
+            width: 60vw;
+            padding: 10px;
+            font-size: 20px;
+            border-width: 4px;
+            border-bottom-color: #BCC4CA;
+            border-right-color: #BCC4CA;
+            border-left-color: white;
+            border-top-color: white;
+            border-radius: 10px;
+        }
+
+        #create_conv_container div {
+            margin: auto;
+        }
+
+        #create_title {
+            font-size: 25px;
+            text-align: center;
+        }
+        #contact_list {
+            max-height: 20vh;
+            overflow: auto;
+        }
+        #chosen_users {
+            max-width: 50%;
+            overflow: auto;
+        }
+    </style>
 </head>
 
 <body class="body_show_list">
+
+    <div id="create_conv" class="create_conv_invisible">
+        <h4 class="clickable" style="position: absolute; left: 0px; top: 0px;" onclick="toggleCreateConvVisibility()">Retour</h4>
+        <div id="create_conv_container">
+            <div id="inner-box">
+                <h1 id="create_title" class="text_centered">Creer une nouvelle conversation :</h1>
+                <input id="input_get_users" type="text" placeholder="Search user" autocomplete="off">
+                <br>
+                <div id="contact_list"></div><br>
+                <br>
+                <div id="chosen_users"></div>
+                <br>
+                <input id="input_get_new_conv_name" type="text" placeholder="Conversation name" autocomplete="off">
+                <br>
+                <div id="create_conv_submit" class="clickable conv_name_list">
+                    <p>Creer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="smartphone-menu-trigger" onclick="toggleMenuVisibility()"></div>
     <nav id="chose_conv" class="menu menu-visible" tabindex="0">
         <header class="avatar" id="avatar">

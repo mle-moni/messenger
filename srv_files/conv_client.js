@@ -48,11 +48,11 @@ function rmUser(userIdStr, convIdStr, socket, dbo, io) {
 	}, function(err, result) {
 		if (err) throw err;
 		if (!result) {
-			socket.emit("log", "Conversation introuvable.");
+			socket.emit("error!", "Conversation introuvable.");
 			return ;
 		}
 		if (result.conv_users[0].toString() !== socket.userId.toString()) {
-			socket.emit("log", "Permission denied.");
+			socket.emit("error!", "Permission denied.");
 			return ;
 		}
 		quit(userIdStr, convIdStr, socket, dbo, io);
@@ -73,7 +73,8 @@ function removeIfAlreadyThere(convUsers, newUsers) {
 
 function makeUserActionRoom(userId, action, room, sockets) {
 	for (let socketId in sockets) {
-		if (sockets[socketId].userId.toString() === userId.toString()) {
+		if (typeof(sockets[socketId].userId) === "string" &&
+		sockets[socketId].userId.toString() === userId.toString()) {
 			sockets[socketId][action](room);
 			break ;
 		}
@@ -88,11 +89,11 @@ function addUsers(users, convIdStr, socket, dbo, io) {
 	}, function(err, result) {
 		if (err) throw err;
 		if (!result) {
-			socket.emit("log", "Conversation introuvable.");
+			socket.emit("error!", "Conversation introuvable.");
 			return ;
 		}
 		if (result.conv_users.length !== 0 && result.conv_users[0].toString() !== socket.userId.toString()) {
-			socket.emit("log", "Permission denied.");
+			socket.emit("error!", "Permission denied.");
 			return ;
 		}
 		deleteErrors(users);
@@ -112,7 +113,7 @@ function addUsers(users, convIdStr, socket, dbo, io) {
 						}
 					}, function(err, res) {
 						// on a push l'ID de cet user dans le field conv_users de la conv
-						socket.emit("log", `L'utilisateur avec l'ID : ${users[i]} a été ajouté.`);
+						socket.emit("addSuccess", `${crypt.encode(users[i])}`);
 						makeUserActionRoom(users[i], "join", convId.toString(), io.sockets.connected);
 						// todo : envoyer une notification a chaque utilisateur
 					});
@@ -148,7 +149,7 @@ function create(obj, socket, dbo, io) {
 	obj.users.unshift(socket.userId.toString());
 	deleteErrors(obj.users);
 	if (obj.convName.length > 50 || obj.convName === 0) {
-		socket.emit("log", `Le nom de la conversation est trop long ou null.`);
+		socket.emit("error!", `Le nom de la conversation est trop long ou null.`);
 		return ;
 	}
 	const convObj = {
@@ -159,7 +160,7 @@ function create(obj, socket, dbo, io) {
 	dbo.collection("conversations").insertOne(convObj, function(err, res) {
 		if (err) throw err;
 		const newConvId = res.insertedId;
-		socket.emit("log", `La conversation : ${obj.convName} a bien été créée, son ID est ${newConvId}.`);
+		socket.emit("success!", `La conversation : ${obj.convName} a bien été créée.`, "toggleCreateConvVisibility()");
 		addUsers(obj.users, newConvId, socket, dbo, io);
 	});
 }
@@ -196,7 +197,7 @@ function searchUsers(name, socket, dbo) {
 
 function getUser(cryptedUserId, socket, dbo) {
 	if (cryptedUserId == "") {
-		socket.emit("log", "Bad userID");
+		socket.emit("error!", "Bad userID");
 			return ;
 	}
 	let decryptedID;
@@ -204,11 +205,11 @@ function getUser(cryptedUserId, socket, dbo) {
 	try {
 		decryptedID = crypt.decode(cryptedUserId);
 	} catch (e) {
-		socket.emit("log", "Bad userID");
+		socket.emit("error!", "Bad userID");
 		return ;
 	}
 	if (!isMongoID(decryptedID)) {
-		socket.emit("log", "Bad userID");
+		socket.emit("error!", "Bad userID");
 		return ;
 	}
 	const query = {	_id: new ObjectId(decryptedID)};
@@ -222,7 +223,7 @@ function getUser(cryptedUserId, socket, dbo) {
 			res.psd = crypt.decode(res.psd);
 			socket.emit("setUser", res);
 		} else {
-			socket.emit("log", "Can't find user..");
+			socket.emit("error!", "Can't find user..");
 		}
 	})
 	.catch( (err) => console.error(`Error while searching user by ID : ${err}`));
@@ -266,7 +267,7 @@ function quit(userIdStr, convIdStr, socket, dbo, io) {
 		}, function(err, res) {
 			// on a retiré la conversation du compte de l'utilisateur
 			makeUserActionRoom(userIdStr, "leave", convIdStr, io.sockets.connected);
-			socket.emit("log", `Vous avez retiré l'utilisateur ${userIdStr} de la conversation ${convIdStr}`);
+			socket.emit("success!", `Vous avez retiré l'utilisateur ${userIdStr} de la conversation ${convIdStr}`);
 			testConv(convId, dbo);
 		});
 	});
@@ -292,11 +293,11 @@ function rename(newName, convIdStr, socket, dbo) {
 	}, function(err, result) {
 		if (err) throw err;
 		if (!result) {
-			socket.emit("log", "Conversation introuvable.");
+			socket.emit("error!", "Conversation introuvable.");
 			return ;
 		}
 		if (result.conv_users[0].toString() !== socket.userId.toString()) {
-			socket.emit("log", "Permission denied.");
+			socket.emit("error!", "Permission denied.");
 			return ;
 		}
 		dbo.collection("conversations").updateOne({_id: convId}, {
@@ -305,7 +306,7 @@ function rename(newName, convIdStr, socket, dbo) {
 			}
 		}, function(err, res) {
 			// on a renomé la conversation
-			socket.emit("log", succesMsg);
+			socket.emit("succes!", succesMsg);
 		});
 	});
 }

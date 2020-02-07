@@ -12,23 +12,19 @@ class ConvObject {
             }
         });
         document.getElementById("add_conv_button").onclick = e=>{
-            console.log("cette fonction n'est pas encore disponible !")
-            // document.body.classList.replace("body_show_list", "body_show_create");
-            // document.getElementById("create_conv").style.display = "block";
-            // document.getElementById("chose_conv").style.display = "none";
+            toggleCreateConvVisibility();
         };
-        // document.getElementById("input_get_users").addEventListener("keyup", e=>{
-        //     this.socket.emit("getUsers", document.getElementById("input_get_users").value);
-        // });
-        // let self = this;
-        // document.getElementById("create_conv_submit").addEventListener("click", e=>{
-        //     self.createConv();
-        // });
+        document.getElementById("input_get_users").addEventListener("keyup", e=>{
+            this.socket.emit("getUsers", document.getElementById("input_get_users").value);
+        });
+        let self = this;
+        document.getElementById("create_conv_submit").addEventListener("click", e=>{
+            self.createConv();
+        });
 
         const avatar = document.getElementById("avatar");
         avatar.getElementsByTagName("h2")[0].textContent = this.psd;
 
-        const self = this;
         navigator.serviceWorker.ready.then(function(reg) {
             self.reg = reg;
             console.log("Service worker is ready.");
@@ -171,7 +167,6 @@ class ConvObject {
         const convName = document.getElementById("input_get_new_conv_name").value;
         if (convName != "") {
             this.socket.emit("createConv", this.newConvUsers.map(o=>o._id), convName);
-            showConvList();
         }
     }
 }

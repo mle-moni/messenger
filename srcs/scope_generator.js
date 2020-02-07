@@ -45,23 +45,40 @@
 	    location.replace("/login");
 	});
 
+	innerSocket.on("error!", (err)=>{
+		toast.alert(err, {duration: 7000});
+		console.error(err)
+	});
+	
 	innerSocket.on("getUsers", res=>{
 		console.log(res);
 		conversations.getUsers(res);
 	});
-
+	
 	innerSocket.on("setUser", res=>{
 		conversations.updateUsersTable(res);
 	});
-
+	
 	innerSocket.on("getConvs", res=>{
 		console.log(res);
 	});
-
+	
 	innerSocket.on("conversation", convObj=>{
 		console.log(convObj);
 		conversations.newConv(convObj);
+		
+	});
+	
+	innerSocket.on("success!", (msg, action)=>{
+		console.log(msg);
+		toast.success(msg);
+		if (typeof(action) === "string") {
+			eval(action);
+		}
+	});
 
+	innerSocket.on("addSuccess", (usrId)=>{
+		toast.success(`L'utilisateur ${conversations.usersTable[usrId]} a été ajouté.`,  { delay: 500 });
 	});
 
 	innerSocket.on("newMsg", (msgObj, convId) => {
@@ -91,14 +108,18 @@
 
 	innerSocket.on("succes_co", ()=>{
 		appReady = true;
+		toast.success("Connected");
 		console.log("Ready, app is now usable");
 	});
 
 	innerSocket.on("disconnect", ()=>{
+		toast.alert("Connection lost");
 		appReady = false;
 		document.getElementById("conv_list").innerHTML = "";
 		console.log("Disconnected, app is not longer usable");
 	});
 	
-	innerSocket.on("log", (txt)=>console.log(txt));
+	innerSocket.on("log", (txt)=>{
+		console.log(txt)
+	});
 })();

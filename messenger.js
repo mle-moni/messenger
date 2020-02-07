@@ -63,7 +63,7 @@ MongoClient.connect(url, {
 				if (typeof(userName) === "string") {
 					conv.searchUsers(userName, socket, dbo);
 				} else {
-					socket.emit("log", "Le pseudo doit etre une chaine de charactere.");
+					socket.emit("error!", "Le pseudo doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -75,7 +75,7 @@ MongoClient.connect(url, {
 				if (typeof(userId) === "string") {
 					conv.getUser(userId, socket, dbo);
 				} else {
-					socket.emit("log", "L'ID doit etre une chaine de charactere.");
+					socket.emit("error!", "L'ID doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -91,9 +91,9 @@ MongoClient.connect(url, {
 					if (obj.ok)
 						conv.create({users, convName}, socket, dbo, io);
 					else
-						socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+						socket.emit("error!", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
 				} else {
-					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
+					socket.emit("error!", "Les identifiants des utilisateurs doivent etre dans un array. Le nom de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -105,7 +105,7 @@ MongoClient.connect(url, {
 				if (conv.isMongoID(convId)) {
 					conv.quit(socket.userId.toString(), convId, socket, dbo, io);
 				} else {
-					socket.emit("log", "Le parametre doit etre l'id de la conversation.");
+					socket.emit("error!", "Le parametre doit etre l'id de la conversation.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -131,7 +131,7 @@ MongoClient.connect(url, {
 					if (obj.ok)
 						conv.addUsers(users, convId, socket, dbo, io);
 				} else {
-					socket.emit("log", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
+					socket.emit("error!", "Les identifiants des utilisateurs doivent etre dans un array. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -143,13 +143,13 @@ MongoClient.connect(url, {
 				try {
 					userId = crypt.decode(userId);
 				} catch (e) {
-					socket.emit("log", "Erreur lors du parsing..");
+					socket.emit("error!", "Erreur lors du parsing..");
 					return ;
 				}
 				if (conv.isMongoID(userId) && conv.isMongoID(convId)) {
 					conv.rmUser(userId, convId, socket, dbo, io);
 				} else {
-					socket.emit("log", "L'identifiant de l'utilisateur doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
+					socket.emit("error!", "L'identifiant de l'utilisateur doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -161,7 +161,7 @@ MongoClient.connect(url, {
 				if (typeof(newName) === "string" && conv.isMongoID(convId)) {
 					conv.rename(newName, convId, socket, dbo);
 				} else {
-					socket.emit("log", "Le nouveau nom de la conversation doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
+					socket.emit("error!", "Le nouveau nom de la conversation doit etre une chaine de charactere. L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");
@@ -174,10 +174,10 @@ MongoClient.connect(url, {
 					if (typeof(msg) === "object") {
 						msg_client.newMsg(msg, convId, socket, dbo, io);
 					} else {
-						socket.emit("log", "Erreur lors du parsing du message.");
+						socket.emit("error!", "Erreur lors du parsing du message.");
 					}
 				} else {
-					socket.emit("log", "L'ID de la conversation doit etre une chaine de charactere.");
+					socket.emit("error!", "L'ID de la conversation doit etre une chaine de charactere.");
 				}
 			} else {
 				socket.emit("logAndComeBack");

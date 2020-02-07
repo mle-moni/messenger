@@ -1,3 +1,5 @@
+const toast = siiimpleToast;
+
 if (Notification.permission !== "granted") {
 	Notification.requestPermission((status) => {
 		if (Notification.permission !== status) {
@@ -20,5 +22,17 @@ function toggleMenuVisibility() {
 		document.getElementById("chose_conv").classList.add("menu-visible");
 		document.getElementsByClassName("smartphone-menu-trigger")[0].classList.remove("trigger-left");
 		menuIsVisible = true;
+	}
+}
+
+let createConvIsVisible = false;
+
+function toggleCreateConvVisibility() {
+	if (createConvIsVisible) {
+		document.getElementById("create_conv").classList.add("create_conv_invisible");
+		createConvIsVisible = false;
+	} else {
+		document.getElementById("create_conv").classList.remove("create_conv_invisible");
+		createConvIsVisible = true;
 	}
 }
