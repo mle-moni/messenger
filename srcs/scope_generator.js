@@ -116,7 +116,7 @@
 		appReady = false;
 		document.getElementById("conv_list").innerHTML = "";
 		toast.alert("Connection lost");
-		console.error("Disconnected, app is not longer usable");
+		console.error("Disconnected, app is no longer usable");
 		setTimeout(()=>{
 			automaticReconnection(connectObj, innerSocket);
 		}, 500);

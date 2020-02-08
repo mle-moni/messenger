@@ -38,7 +38,6 @@ function toggleMenuVisibility(dontPush) {
 let createConvIsVisible = false;
 
 function toggleCreateConvVisibility(dontPush) {
-	console.log(dontPush)
 	if (createConvIsVisible) {
 		document.getElementById("create_conv").classList.add("create_conv_invisible");
 		createConvIsVisible = false;

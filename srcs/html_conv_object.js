@@ -31,7 +31,6 @@ class ConvObject {
         });
 
         window.onpopstate = e=>{
-            console.log(history.state)
             let mobile = innerWidth <= 700;
             if (e.state) {
                 switch (e.state.action) {
@@ -89,6 +88,10 @@ class ConvObject {
             p.classList.add("clickable", "conv_name_list");
             // charge la conversation quand on clique sur le conv_name
             p.onclick = e=>{
+                const bList = e.target.getElementsByTagName("b");
+                for (let i = 0; i < bList.length; i++) {
+                    e.target.removeChild(bList[i]);
+                }
                 this.loadConv(e.target.convID);
                 this.showConv();
                 const stateObj = {action: "load_conv", params: [e.target.convID]};
@@ -156,6 +159,15 @@ class ConvObject {
         this.conversations[convID].conv_data.push(msgObj);
         if (convID === this.current) {
             this.newMsg(msgObj);
+        } else {
+            toast.message(`Nouveau message dans : ${this.conversations[convID].conv_name}`);
+            const list = document.getElementById("conv_list").getElementsByTagName("p");
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].convID === convID) {
+                    // affiche '*' derriere le nom de la conversation 
+                    list[i].innerHTML += " <b>*</b>";
+                }
+            }
         }
         const userName = this.usersTable[msgObj.user_id] || "Unknown user";
         if (Notification.permission === "granted") {
