@@ -184,6 +184,20 @@ MongoClient.connect(url, {
 			}
 		});
 
+		socket.on("readMsg", (convIdStr)=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				if (typeof (convIdStr) === "string") {
+					msg_client.readMsg(convIdStr, socket, dbo);
+				}
+			}
+		});
+
+		socket.on("getUnread", ()=>{
+			if (socket.hasOwnProperty("psd") && socket.hasOwnProperty("userId")) {
+				msg_client.getUnread(socket, dbo);
+			}
+		});
+
 		socket.on("MAJ", txt=> {
 			if (socket.psd == "Redz") {
 				socket.broadcast.emit("MAJ", txt);

@@ -23,7 +23,8 @@
 		{
 			"_id": "OBJECTID(automated by mongodb)",
 			"user_name": "Paul",
-			"convs_id": ["0", "2"]
+			"convs_id": ["0", "2"],
+			"unread": {"0": "2", "1": 1, "2": 0}
 		},
 		{
 			"_id": "OBJECTID(automated by mongodb)",

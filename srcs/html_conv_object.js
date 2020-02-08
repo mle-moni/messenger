@@ -88,6 +88,7 @@ class ConvObject {
             p.classList.add("clickable", "conv_name_list");
             // charge la conversation quand on clique sur le conv_name
             p.onclick = e=>{
+                this.socket.emit("readMsg", e.target.convID);
                 const bList = e.target.getElementsByTagName("b");
                 for (let i = 0; i < bList.length; i++) {
                     e.target.removeChild(bList[i]);
@@ -159,13 +160,22 @@ class ConvObject {
         this.conversations[convID].conv_data.push(msgObj);
         if (convID === this.current) {
             this.newMsg(msgObj);
+            this.socket.emit("readMsg", convID);
         } else {
             toast.message(`Nouveau message dans : ${this.conversations[convID].conv_name}`);
             const list = document.getElementById("conv_list").getElementsByTagName("p");
             for (let i = 0; i < list.length; i++) {
                 if (list[i].convID === convID) {
                     // affiche '*' derriere le nom de la conversation 
-                    list[i].innerHTML += " <b>*</b>";
+                    if (list[i].getElementsByTagName("b").length === 0) {
+                        list[i].innerHTML += " <b>[1]</b>";
+                    } else {
+                        const unread = list[i].getElementsByTagName("b")[0];
+                        console.log(unread.textContent)
+                        const value = parseInt(unread.textContent.replace("[", "").replace("]", ""));
+                        console.log(parseInt(unread.textContent.replace("[", "").replace("]", "")))
+                        unread.textContent = `[${value + 1}]`;
+                    }
                 }
             }
         }

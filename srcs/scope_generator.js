@@ -69,6 +69,26 @@
 		
 	});
 	
+	innerSocket.on("getUnread", (obj)=>{
+		console.log(obj)
+		const list = document.getElementById("conv_list").getElementsByTagName("p");
+
+		for (let convID in obj) {
+			for (let i = 0; i < list.length; i++) {
+				if (list[i].convID === convID) {
+					// affiche le nombre de messages non lus
+					if (obj[convID] !== 0) {
+						if (list[i].getElementsByTagName("b").length === 0) {
+							list[i].innerHTML += ` <b>[${obj[convID]}]</b>`;
+						} else {
+							list[i].getElementsByTagName("b")[0].innerHTML = `[${obj[convID]}]`;
+						}
+					}
+				}
+			}
+		}
+	});
+	
 	innerSocket.on("success!", (msg, action)=>{
 		console.log(msg);
 		toast.success(msg);
@@ -110,6 +130,9 @@
 		appReady = true;
 		toast.success("Connected");
 		console.log("Ready, app is now usable");
+		setTimeout(()=>{
+            this.socket.emit("getUnread");
+        }, 200);
 	});
 
 	innerSocket.on("disconnect", ()=>{
