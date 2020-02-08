@@ -6,6 +6,8 @@ class ConvObject {
         this.usersTable = [];
         this.current = "";
         this.newConvUsers = [];
+        let self = this;
+
         document.getElementById("input").addEventListener("keydown", e=>{
             if (e.keyCode === 13) {
                 this.sendMsg(document.getElementById("input").value);
@@ -17,7 +19,6 @@ class ConvObject {
         document.getElementById("input_get_users").addEventListener("keyup", e=>{
             this.socket.emit("getUsers", document.getElementById("input_get_users").value);
         });
-        let self = this;
         document.getElementById("create_conv_submit").addEventListener("click", e=>{
             self.createConv();
         });
@@ -160,7 +161,12 @@ class ConvObject {
         this.conversations[convID].conv_data.push(msgObj);
         if (convID === this.current) {
             this.newMsg(msgObj);
+            let mobile = innerWidth <= 700;
             this.socket.emit("readMsg", convID);
+            if (mobile && menuIsVisible) {
+                toggleMenuVisibility();
+                document.getElementById("msg_list").scroll(0, 10000000);
+            }
         } else {
             toast.message(`Nouveau message dans : ${this.conversations[convID].conv_name}`);
             const list = document.getElementById("conv_list").getElementsByTagName("p");
