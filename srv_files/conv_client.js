@@ -73,7 +73,7 @@ function removeIfAlreadyThere(convUsers, newUsers) {
 
 function makeUserActionRoom(userId, action, room, sockets) {
 	for (let socketId in sockets) {
-		if (typeof(sockets[socketId].userId) === "string" &&
+		if (sockets[socketId].hasOwnProperty("userId") &&
 		sockets[socketId].userId.toString() === userId.toString()) {
 			sockets[socketId][action](room);
 			break ;
