@@ -11,11 +11,11 @@ self.addEventListener('notificationclick', function (event) {
 		.then(function (clientList) {
 			for (var i = 0; i < clientList.length; i++) {
 				var client = clientList[i];
-				if (client.url == 'https://messenger.renouv.art/' && 'focus' in client)
+				if (client.url == 'https://messenger.mle-moni.fr/' && 'focus' in client)
 					return client.focus();
 			}
 			if (clients.openWindow) {
-				return clients.openWindow('https://messenger.renouv.art/');
+				return clients.openWindow('https://messenger.mle-moni.fr/');
 			}
 		})
 	);
